@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { productsApi, type Product } from "@/lib/api";
 import { formatCurrency } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
+import { useScreenStore } from "@/store/screen";
 import { flyToCart } from "@/lib/flyToCart";
 
 const PAGE_SIZE = 20;
@@ -21,10 +22,17 @@ export function Catalog() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const { addItem } = useCartStore();
+  const setProductsOnScreen = useScreenStore((s) => s.setProductsOnScreen);
 
   useEffect(() => {
     productsApi.categories().then(setCategories);
   }, []);
+
+  useEffect(() => {
+    setProductsOnScreen(products.map((p) => p.id));
+  }, [products, setProductsOnScreen]);
+
+  useEffect(() => () => setProductsOnScreen([]), [setProductsOnScreen]);
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 300);

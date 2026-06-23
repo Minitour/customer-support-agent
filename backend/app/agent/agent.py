@@ -58,6 +58,8 @@ async def stream_agent_response(
     user_id: Optional[int],
     order_repo,
     messages: list[dict],
+    product_repo=None,
+    context_text: Optional[str] = None,
 ) -> AsyncGenerator[str, None]:
     """
     Streams SSE-compatible events.
@@ -72,8 +74,10 @@ async def stream_agent_response(
     import json
 
     is_guest = user_id is None
-    tools = build_tools(user_id, order_repo)
+    tools = build_tools(user_id, order_repo, product_repo)
     prompt = GUEST_SYSTEM_PROMPT if is_guest else SYSTEM_PROMPT
+    if context_text:
+        prompt = f"{prompt}\n\n{context_text}"
     agent = _build_agent(tools, prompt)
     converted = _convert_messages(messages)
 

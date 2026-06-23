@@ -125,8 +125,14 @@ export const ordersApi = {
 };
 
 // Chat streaming
+export interface ChatContext {
+  products_on_screen: number[];
+  products_in_cart: number[];
+}
+
 export function streamChat(
   messages: { role: string; content: string }[],
+  context: ChatContext,
   onEvent: (event: { type: string; content?: string; name?: string; input?: string; output?: string }) => void,
   onDone: () => void,
   onError: (err: string) => void
@@ -140,7 +146,7 @@ export function streamChat(
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages, context }),
     signal: controller.signal,
   })
     .then(async (res) => {

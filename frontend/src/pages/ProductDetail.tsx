@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { productsApi, type Product, type Review } from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
+import { useScreenStore } from "@/store/screen";
 import { flyToCart } from "@/lib/flyToCart";
 
 function Stars({ value, className = "h-4 w-4" }: { value: number; className?: string }) {
@@ -33,6 +34,7 @@ export function ProductDetail() {
   const [activeImage, setActiveImage] = useState(0);
 
   const { addItem } = useCartStore();
+  const setProductsOnScreen = useScreenStore((s) => s.setProductsOnScreen);
   const galleryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,6 +47,11 @@ export function ProductDetail() {
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
   }, [productId]);
+
+  useEffect(() => {
+    if (product) setProductsOnScreen([product.id]);
+    return () => setProductsOnScreen([]);
+  }, [product, setProductsOnScreen]);
 
   if (loading) {
     return (

@@ -18,6 +18,12 @@ class ProductRepository:
         result = await self.db.execute(select(Product).where(Product.id == product_id))
         return result.scalar_one_or_none()
 
+    async def get_by_ids(self, ids: List[int]) -> List[Product]:
+        if not ids:
+            return []
+        result = await self.db.execute(select(Product).where(Product.id.in_(ids)))
+        return result.scalars().all()
+
     async def list(
         self,
         category: Optional[str] = None,

@@ -6,13 +6,13 @@ from langchain_core.tools import tool
 from app.vectorstore.ingestion import get_policy_vectorstore, get_products_vectorstore
 
 
-def build_tools(user_id: Optional[int] = None, order_repo=None):
+def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=None):
     """
     Returns a list of LangChain tools.
 
     When ``user_id`` and ``order_repo`` are provided (authenticated user), the
-    order-lookup tool is included. For guests (no user), only the policy search
-    tool is exposed so the agent can answer policy-related questions only.
+    order-lookup tools are included. For guests (no user), only the policy and
+    product search/lookup tools are exposed.
     """
 
     @tool
@@ -50,8 +50,39 @@ def build_tools(user_id: Optional[int] = None, order_repo=None):
             )
         return "\n".join(lines)
 
+    @tool
+    async def get_products_by_id(ids: list[int]) -> str:
+        """Look up one or more products by their numeric product IDs. Use this to get
+        the title, category, brand, price, and stock for products the customer is
+        currently viewing on screen or has in their cart (their IDs are provided in
+        the page context). Pass a list of product IDs, e.g. [3, 7, 12]."""
+        if product_repo is None:
+            return "Product lookup is unavailable right now."
+        products = await product_repo.get_by_ids(ids)
+        if not products:
+            return "No products found for the given IDs."
+        by_id = {p.id: p for p in products}
+        lines = []
+        for pid in ids:
+            p = by_id.get(pid)
+            if p is None:
+                lines.append(f"- ID {pid}: not found")
+                continue
+            try:
+                price = f"${float(p.price):.2f}"
+            except (ValueError, TypeError):
+                price = "N/A"
+            link = f"[{p.title}](/products/{p.id})"
+            lines.append(
+                f"- {link} (ID: {p.id}) | Category: {p.category or 'N/A'} "
+                f"| Brand: {p.brand or 'N/A'} | Price: {price} | Stock: {p.stock}"
+            )
+        return "\n".join(lines)
+
+    base_tools = [search_policy, search_products, get_products_by_id]
+
     if user_id is None or order_repo is None:
-        return [search_policy, search_products]
+        return base_tools
 
     @tool
     async def get_order_status(order_id: str) -> str:
@@ -97,4 +128,4 @@ def build_tools(user_id: Optional[int] = None, order_repo=None):
             lines.append(line + ".")
         return "\n".join(lines)
 
-    return [search_policy, search_products, get_order_status, get_order_history]
+    return base_tools + [get_order_status, get_order_history]

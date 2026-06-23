@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { streamChat } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Markdown } from "@/components/chat/Markdown";
+import { useScreenStore } from "@/store/screen";
+import { useCartStore } from "@/store/cart";
 
 interface ToolCall {
   name: string;
@@ -45,6 +47,8 @@ export function ChatWidget() {
   const abortRef = useRef<AbortController | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const [expandedTools, setExpandedTools] = useState<Set<string>>(new Set());
+  const productsOnScreen = useScreenStore((s) => s.productsOnScreen);
+  const cartItems = useCartStore((s) => s.items);
 
   useEffect(() => {
     if (open) bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -64,12 +68,18 @@ export function ChatWidget() {
       .filter((m) => m.role === "user" || m.role === "assistant")
       .map((m) => ({ role: m.role, content: m.content }));
 
+    const context = {
+      products_on_screen: productsOnScreen,
+      products_in_cart: cartItems.map((i) => i.product.id),
+    };
+
     let assistantContent = "";
     const toolCalls: ToolCall[] = [];
     let pendingTool: Partial<ToolCall> | null = null;
 
     abortRef.current = streamChat(
       apiMessages,
+      context,
       (event) => {
         if (event.type === "token" && event.content) {
           assistantContent += event.content;
