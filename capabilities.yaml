@@ -22,6 +22,10 @@ skills:
     type: github
     def:
       repo: davila7/claude-code-templates@chroma
+  - id: ui-animation
+    type: github
+    def:
+      repo: mblode/agent-skills@ui-animation
 servers: []
 tools: []
 rules:

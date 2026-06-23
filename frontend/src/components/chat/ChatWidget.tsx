@@ -5,7 +5,6 @@ import {
   User,
   Wrench,
   ChevronDown,
-  ChevronRight,
   Loader2,
   MessageSquare,
   X,
@@ -143,7 +142,7 @@ export function ChatWidget() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Open support chat"
-        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-gray-900 text-white shadow-lg flex items-center justify-center cursor-pointer hover:bg-gray-800 hover:scale-105 transition-all"
+        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-gray-900 text-white shadow-lg flex items-center justify-center cursor-pointer hover:bg-gray-800 hover:scale-105 transition-[transform,background-color] duration-150 anim-fab"
       >
         <MessageSquare className="h-6 w-6" />
       </button>
@@ -153,7 +152,7 @@ export function ChatWidget() {
   return (
     <div
       className={cn(
-        "fixed z-50 flex flex-col bg-white shadow-2xl border border-gray-200 overflow-hidden",
+        "fixed z-50 flex flex-col bg-white shadow-2xl border border-gray-200 overflow-hidden anim-chat-panel",
         maximized
           ? "inset-2 sm:inset-6 rounded-2xl"
           : "bottom-6 right-6 w-[calc(100vw-3rem)] sm:w-[400px] h-[600px] max-h-[calc(100vh-3rem)] rounded-2xl"
@@ -191,7 +190,7 @@ export function ChatWidget() {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((msg, idx) => (
-          <div key={idx}>
+          <div key={idx} className="message-bubble">
             <div className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
               {msg.role === "assistant" && (
                 <div className="h-8 w-8 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0">
@@ -236,30 +235,32 @@ export function ChatWidget() {
                       >
                         <Wrench className="h-3 w-3 text-blue-500 flex-shrink-0" />
                         <span className="font-medium text-blue-700">{tc.name}</span>
-                        {expanded ? (
-                          <ChevronDown className="h-3 w-3 text-blue-400 ml-auto" />
-                        ) : (
-                          <ChevronRight className="h-3 w-3 text-blue-400 ml-auto" />
-                        )}
+                        <ChevronDown
+                          className="h-3 w-3 text-blue-400 ml-auto transition-transform duration-200"
+                          style={{ transform: expanded ? "rotate(0deg)" : "rotate(-90deg)" }}
+                        />
                       </button>
-                      {expanded && (
-                        <div className="px-3 pb-3 space-y-2">
-                          <div>
-                            <p className="text-blue-500 font-semibold mb-1">Input</p>
-                            <pre className="text-gray-700 whitespace-pre-wrap break-all font-mono text-xs bg-white/60 rounded p-2">
-                              {tc.input}
-                            </pre>
-                          </div>
-                          {tc.output && (
+                      {/* CSS grid-row accordion — no hard cuts */}
+                      <div className={`tool-expand ${expanded ? "tool-expand--open" : ""}`}>
+                        <div>
+                          <div className="px-3 pb-3 space-y-2">
                             <div>
-                              <p className="text-blue-500 font-semibold mb-1">Output</p>
+                              <p className="text-blue-500 font-semibold mb-1">Input</p>
                               <pre className="text-gray-700 whitespace-pre-wrap break-all font-mono text-xs bg-white/60 rounded p-2">
-                                {tc.output}
+                                {tc.input}
                               </pre>
                             </div>
-                          )}
+                            {tc.output && (
+                              <div>
+                                <p className="text-blue-500 font-semibold mb-1">Output</p>
+                                <pre className="text-gray-700 whitespace-pre-wrap break-all font-mono text-xs bg-white/60 rounded p-2">
+                                  {tc.output}
+                                </pre>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   );
                 })}

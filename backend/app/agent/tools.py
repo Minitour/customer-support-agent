@@ -3,7 +3,7 @@ from typing import Optional
 
 from langchain_core.tools import tool
 
-from app.vectorstore.ingestion import get_policy_vectorstore
+from app.vectorstore.ingestion import get_policy_vectorstore, get_products_vectorstore
 
 
 def build_tools(user_id: Optional[int] = None, order_repo=None):
@@ -24,8 +24,34 @@ def build_tools(user_id: Optional[int] = None, order_repo=None):
             return "No relevant policy information found."
         return "\n\n---\n\n".join(d.page_content for d in docs)
 
+    @tool
+    async def search_products(query: str) -> str:
+        """Search the product catalog using natural language. Use this when a customer asks about specific products, categories, brands, or wants product recommendations. Returns the top matching products with their ID, title, category, brand, and price."""
+        vs = get_products_vectorstore()
+        docs = vs.similarity_search(query, k=5)
+        if not docs:
+            return "No matching products found in the catalog."
+        lines = []
+        for doc in docs:
+            m = doc.metadata
+            title = doc.page_content.splitlines()[0]
+            price = m.get("price", "N/A")
+            try:
+                price = f"${float(price):.2f}"
+            except (ValueError, TypeError):
+                price = "N/A"
+            product_id = m.get("product_id", "")
+            link = f"[{title}](/products/{product_id})" if product_id else title
+            lines.append(
+                f"- {link} "
+                f"| Category: {m.get('category', 'N/A')} "
+                f"| Brand: {m.get('brand', 'N/A')} "
+                f"| Price: {price}"
+            )
+        return "\n".join(lines)
+
     if user_id is None or order_repo is None:
-        return [search_policy]
+        return [search_policy, search_products]
 
     @tool
     async def get_order_status(order_id: str) -> str:
@@ -57,4 +83,4 @@ def build_tools(user_id: Optional[int] = None, order_repo=None):
             )
         return "\n".join(lines)
 
-    return [search_policy, get_order_status, get_order_history]
+    return [search_policy, search_products, get_order_status, get_order_history]

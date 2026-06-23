@@ -57,7 +57,10 @@ export function Navbar() {
                 >
                   <ShoppingCart className="h-4 w-4" />
                   {itemCount > 0 && (
-                    <span className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-gray-900 text-white text-xs flex items-center justify-center">
+                    <span
+                      key={itemCount}
+                      className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-gray-900 text-white text-xs flex items-center justify-center anim-badge-pop"
+                    >
                       {itemCount}
                     </span>
                   )}

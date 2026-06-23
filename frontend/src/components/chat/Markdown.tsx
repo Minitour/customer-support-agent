@@ -1,11 +1,14 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Renders chat message content as markdown with styling tuned for a small
  * chat bubble. Keeps spacing tight and inherits the bubble's text color.
  */
 export function Markdown({ content }: { content: string }) {
+  const navigate = useNavigate();
+
   return (
     <div className="text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       <ReactMarkdown
@@ -20,16 +23,30 @@ export function Markdown({ content }: { content: string }) {
           h1: ({ children }) => <h1 className="text-base font-bold mt-3 mb-1.5">{children}</h1>,
           h2: ({ children }) => <h2 className="text-sm font-bold mt-3 mb-1.5">{children}</h2>,
           h3: ({ children }) => <h3 className="text-sm font-semibold mt-2 mb-1">{children}</h3>,
-          a: ({ children, href }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              className="underline underline-offset-2 hover:opacity-80"
-            >
-              {children}
-            </a>
-          ),
+          a: ({ children, href }) => {
+            const isRelative = href && href.startsWith("/");
+            if (isRelative) {
+              return (
+                <a
+                  href={href}
+                  className="underline underline-offset-2 hover:opacity-80 cursor-pointer"
+                  onClick={(e) => { e.preventDefault(); navigate(href); }}
+                >
+                  {children}
+                </a>
+              );
+            }
+            return (
+              <a
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-2 hover:opacity-80"
+              >
+                {children}
+              </a>
+            );
+          },
           code: ({ children }) => (
             <code className="rounded bg-black/10 px-1 py-0.5 font-mono text-[0.85em]">{children}</code>
           ),

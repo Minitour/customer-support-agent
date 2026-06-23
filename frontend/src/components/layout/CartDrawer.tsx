@@ -14,8 +14,6 @@ export function CartDrawer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (!open) return null;
-
   const handleCheckout = async () => {
     if (!user) {
       navigate("/signin");
@@ -42,8 +40,17 @@ export function CartDrawer() {
 
   return (
     <>
-      <div className="fixed inset-0 z-40 bg-black/40" onClick={() => setOpen(false)} />
-      <div className="fixed right-0 top-0 z-50 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
+      {/* Backdrop — always in DOM, fades in/out */}
+      <div
+        className="fixed inset-0 z-40 bg-black/40 transition-opacity duration-300"
+        style={{ opacity: open ? 1 : 0, pointerEvents: open ? "auto" : "none" }}
+        onClick={() => setOpen(false)}
+      />
+      {/* Drawer panel — slides in from the right */}
+      <div
+        className="fixed right-0 top-0 z-50 h-full w-full max-w-md bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+        style={{ transform: open ? "translateX(0)" : "translateX(100%)", pointerEvents: open ? "auto" : "none" }}
+      >
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold">Your Cart</h2>
           <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
