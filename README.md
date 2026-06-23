@@ -133,6 +133,20 @@ Run specific scenarios:
 ```bash
 python tests/eval.py --token "$TOKEN" --ids P01 P02 E01
 ```
+## QA and Evaluation
+
+In addition to the automated evaluation scenarios in `tests/`, this project includes a manual QA checklist for validating the AI customer support agent.
+
+The QA checklist covers:
+- return policy questions
+- sale item refund rules
+- damaged item handling
+- non-returnable items
+- refund timing
+- hallucination checks
+- privacy checks for order-related questions
+
+See [QA_CHECKLIST.md](QA_CHECKLIST.md) for detailed manual test cases.
 
 ## API Reference
 
