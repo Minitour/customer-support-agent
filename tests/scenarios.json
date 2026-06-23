@@ -1,0 +1,364 @@
+[
+  {
+    "id": "P01",
+    "category": "policy",
+    "description": "Return policy for sale items",
+    "messages": [
+      {"role": "user", "content": "What is your return policy for items bought on sale?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Must mention sale items get store credit, not cash refund"
+  },
+  {
+    "id": "P02",
+    "category": "policy",
+    "description": "Standard return window",
+    "messages": [
+      {"role": "user", "content": "How many days do I have to return an item?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should answer 30 days"
+  },
+  {
+    "id": "P03",
+    "category": "policy",
+    "description": "International shipping availability",
+    "messages": [
+      {"role": "user", "content": "Do you ship to Europe?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should confirm EU shipping with 7-14 day estimate"
+  },
+  {
+    "id": "P04",
+    "category": "policy",
+    "description": "Free shipping threshold",
+    "messages": [
+      {"role": "user", "content": "How much do I need to spend to get free shipping?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should say $50 for free domestic shipping"
+  },
+  {
+    "id": "P05",
+    "category": "policy",
+    "description": "Payment methods accepted",
+    "messages": [
+      {"role": "user", "content": "What payment methods do you accept?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should list Visa, Mastercard, PayPal, Apple Pay, etc."
+  },
+  {
+    "id": "P06",
+    "category": "policy",
+    "description": "Warranty for electronics",
+    "messages": [
+      {"role": "user", "content": "What warranty do laptops come with?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should say 1 year manufacturer warranty for laptops"
+  },
+  {
+    "id": "P07",
+    "category": "policy",
+    "description": "Defective item reporting",
+    "messages": [
+      {"role": "user", "content": "I received a damaged item. What should I do?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should say contact within 7 days, free return arranged"
+  },
+  {
+    "id": "P08",
+    "category": "policy",
+    "description": "Buy Now Pay Later options",
+    "messages": [
+      {"role": "user", "content": "Do you have buy now pay later options?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should mention Klarna and Afterpay"
+  },
+  {
+    "id": "P09",
+    "category": "policy",
+    "description": "Refund timeline for credit cards",
+    "messages": [
+      {"role": "user", "content": "How long does it take to get a refund to my credit card?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should say 5-10 business days for credit cards"
+  },
+  {
+    "id": "P10",
+    "category": "policy",
+    "description": "Items that cannot be returned",
+    "messages": [
+      {"role": "user", "content": "Can I return opened cosmetics?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Opened cosmetics/personal care are non-returnable"
+  },
+  {
+    "id": "P11",
+    "category": "policy",
+    "description": "Privacy and data rights",
+    "messages": [
+      {"role": "user", "content": "Can I request deletion of my personal data?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should confirm data deletion rights and mention privacy@shopease.com"
+  },
+  {
+    "id": "P12",
+    "category": "policy",
+    "description": "Contact the support team",
+    "messages": [
+      {"role": "user", "content": "How can I speak to a human support agent?"}
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Should provide phone/email and business hours"
+  },
+  {
+    "id": "O01",
+    "category": "order",
+    "description": "Order status lookup with valid order code",
+    "messages": [
+      {"role": "user", "content": "Where is my order A12345?"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Agent should call get_order_status with A12345"
+  },
+  {
+    "id": "O02",
+    "category": "order",
+    "description": "Order status prompt without order ID — agent asks for it",
+    "messages": [
+      {"role": "user", "content": "Where is my order?"}
+    ],
+    "expected_tool": null,
+    "expected_behavior": "ask_for_order_id",
+    "should_escalate": false,
+    "notes": "Agent must ask for order ID before calling any tool"
+  },
+  {
+    "id": "O03",
+    "category": "order",
+    "description": "Multi-turn: user provides order ID after being asked",
+    "messages": [
+      {"role": "user", "content": "Can you check my delivery status?"},
+      {"role": "assistant", "content": "I'd be happy to help! Could you please share your order code?"},
+      {"role": "user", "content": "It's B98765"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "After receiving order ID, agent calls get_order_status"
+  },
+  {
+    "id": "O04",
+    "category": "order",
+    "description": "Order status for non-existent order",
+    "messages": [
+      {"role": "user", "content": "What's the status of order Z99999?"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "not_found",
+    "should_escalate": false,
+    "notes": "Tool returns not found, agent should say honestly it can't find it"
+  },
+  {
+    "id": "O05",
+    "category": "order",
+    "description": "Order tracking number question",
+    "messages": [
+      {"role": "user", "content": "What is the tracking number for order C11111?"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Agent should return tracking from order status result"
+  },
+  {
+    "id": "O06",
+    "category": "order",
+    "description": "Order ETA question",
+    "messages": [
+      {"role": "user", "content": "When will my order D22222 arrive?"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Agent should format and return the ETA date"
+  },
+  {
+    "id": "O07",
+    "category": "order",
+    "description": "Carrier question for specific order",
+    "messages": [
+      {"role": "user", "content": "Which carrier is handling my order E33333?"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Agent should return carrier name from order status"
+  },
+  {
+    "id": "O08",
+    "category": "order",
+    "description": "Order with lowercase code",
+    "messages": [
+      {"role": "user", "content": "check order f44444"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer_or_not_found",
+    "should_escalate": false,
+    "notes": "Agent should handle case-insensitive order codes"
+  },
+  {
+    "id": "O09",
+    "category": "order",
+    "description": "Multiple order questions in one message",
+    "messages": [
+      {"role": "user", "content": "I have two orders, G55555 and H66666, can you check both?"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Agent may call get_order_status twice or handle gracefully"
+  },
+  {
+    "id": "O10",
+    "category": "order",
+    "description": "Order status question combining policy",
+    "messages": [
+      {"role": "user", "content": "My order I77777 hasn't arrived yet. Can I get a refund?"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer_with_policy",
+    "should_escalate": false,
+    "notes": "Agent should check order status and note refund policy"
+  },
+  {
+    "id": "O11",
+    "category": "order",
+    "description": "Order status with explicit name and ID",
+    "messages": [
+      {"role": "user", "content": "I'm John Smith, order number J88888"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "should_escalate": false,
+    "notes": "Agent should call get_order_status with J88888"
+  },
+  {
+    "id": "O12",
+    "category": "order",
+    "description": "Ask about another user's order (cross-user deny)",
+    "messages": [
+      {"role": "user", "content": "Can you look up order K99999 for my friend?"}
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "not_found",
+    "should_escalate": false,
+    "notes": "Tool should return not-found since it's scoped to current user"
+  },
+  {
+    "id": "E01",
+    "category": "escalation",
+    "description": "Request to cancel subscription",
+    "messages": [
+      {"role": "user", "content": "Can you cancel my subscription and refund last month?"}
+    ],
+    "expected_tool": null,
+    "expected_behavior": "escalate",
+    "should_escalate": true,
+    "notes": "No cancel_subscription tool; agent must escalate"
+  },
+  {
+    "id": "E02",
+    "category": "escalation",
+    "description": "Request to issue a refund",
+    "messages": [
+      {"role": "user", "content": "I want a refund for my last order, can you process it now?"}
+    ],
+    "expected_tool": null,
+    "expected_behavior": "escalate",
+    "should_escalate": true,
+    "notes": "Agent can't process refunds, must escalate"
+  },
+  {
+    "id": "E03",
+    "category": "escalation",
+    "description": "Request to modify an order",
+    "messages": [
+      {"role": "user", "content": "Please change the shipping address on my order L11111"}
+    ],
+    "expected_tool": null,
+    "expected_behavior": "escalate",
+    "should_escalate": true,
+    "notes": "Agent cannot modify orders, must escalate"
+  },
+  {
+    "id": "E04",
+    "category": "escalation",
+    "description": "Request completely out of scope",
+    "messages": [
+      {"role": "user", "content": "Can you write me a poem about my shopping experience?"}
+    ],
+    "expected_tool": null,
+    "expected_behavior": "refuse_or_redirect",
+    "should_escalate": false,
+    "notes": "Agent should politely decline off-topic requests"
+  },
+  {
+    "id": "E05",
+    "category": "escalation",
+    "description": "Explicit request for human agent",
+    "messages": [
+      {"role": "user", "content": "I want to speak to a human agent right now"}
+    ],
+    "expected_tool": null,
+    "expected_behavior": "escalate",
+    "should_escalate": true,
+    "notes": "Agent should immediately provide human contact info or escalate"
+  },
+  {
+    "id": "E06",
+    "category": "escalation",
+    "description": "Fraud claim on account",
+    "messages": [
+      {"role": "user", "content": "Someone used my account to place orders, I think I've been hacked"}
+    ],
+    "expected_tool": null,
+    "expected_behavior": "escalate",
+    "should_escalate": true,
+    "notes": "Fraud/security issues must be escalated to human immediately"
+  }
+]

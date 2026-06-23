@@ -1,0 +1,26 @@
+options:
+  toolExposure: on-demand
+skills:
+  - id: capabilities-manager
+    type: github
+    def:
+      repo: infragate/capa@capabilities-manager
+      description: Guide for managing capabilities with capa CLI
+  - id: frontend-design
+    type: github
+    def:
+      repo: anthropics/skills@frontend-design
+  - id: fastapi-templates
+    type: github
+    def:
+      repo: wshobson/agents@fastapi-templates
+  - id: langchain-rag
+    type: github
+    def:
+      repo: langchain-ai/langchain-skills@langchain-rag
+  - id: chroma
+    type: github
+    def:
+      repo: davila7/claude-code-templates@chroma
+servers: []
+tools: []

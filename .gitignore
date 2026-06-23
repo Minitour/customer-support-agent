@@ -1,0 +1,7 @@
+.cursor/
+.venv/
+.env
+frontend/node_modules/
+frontend/dist/
+capabilities.lock
+
