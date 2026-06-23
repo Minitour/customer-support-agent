@@ -39,4 +39,22 @@ def build_tools(user_id: Optional[int] = None, order_repo=None):
             f"carrier={order.carrier}, tracking={order.tracking}, ETA={eta_str}."
         )
 
-    return [search_policy, get_order_status]
+    @tool
+    async def get_order_history() -> str:
+        """Return a summary of all orders placed by the current customer, sorted most-recent first."""
+        orders = await order_repo.list_for_user(user_id)
+        if not orders:
+            return "You have no orders yet."
+        lines = []
+        for order in orders:
+            eta_str = order.eta.strftime("%B %d, %Y") if order.eta else "unknown"
+            date_str = order.created_at.strftime("%B %d, %Y")
+            item_count = sum(i.quantity for i in order.items)
+            lines.append(
+                f"• {order.order_code} — placed {date_str}, "
+                f"status: {order.status.value}, "
+                f"{item_count} item(s), total: ${order.total:.2f}, ETA: {eta_str}."
+            )
+        return "\n".join(lines)
+
+    return [search_policy, get_order_status, get_order_history]

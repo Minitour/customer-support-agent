@@ -24,3 +24,66 @@ skills:
       repo: davila7/claude-code-templates@chroma
 servers: []
 tools: []
+rules:
+  - id: docker-rebuild-on-change
+    type: inline
+    alwaysApply: true
+    description: Rebuild and restart docker compose after any code change
+    content: |
+      ## Docker Compose — auto-rebuild rule
+
+      This project runs entirely inside Docker Compose. After making ANY code change
+      (backend Python files, frontend TypeScript/TSX files, or any other source file),
+      you MUST run the following command before finishing your turn:
+
+      ```
+      docker compose up -d --build app
+      ```
+
+      Run it from the project root (`/Users/antonio.zaitoun/Documents/Projects/customer-support-agent`).
+      Do NOT skip this step or ask the user to do it manually — always run it yourself as the last step.
+
+  - id: project-conventions
+    type: inline
+    alwaysApply: true
+    description: Architecture and coding conventions for the customer-support-agent project
+    content: |
+      # Customer Support Agent — Project Conventions
+
+      ## Stack
+      - **Backend**: Python 3.12, FastAPI, SQLAlchemy (async), PostgreSQL, LangChain / LangGraph, ChromaDB
+      - **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Zustand, React Router, shadcn/ui
+      - **Infra**: Docker Compose — one `app` service that builds the React frontend and embeds it in the FastAPI container
+
+      ## Adding a new agent tool
+      1. Open `backend/app/agent/tools.py` and define a new `@tool` async function inside `build_tools()`.
+         - Authenticated tools (needing `user_id` or `order_repo`) must be defined after the guest-only guard and added to the returned list.
+         - Guest-only tools (no user context) go before the guard and into the `[search_policy]` list.
+      2. Update `backend/app/agent/prompt.py`:
+         - Add the tool to the `## Your tools` block in `SYSTEM_PROMPT`.
+         - Add a routing rule in `## Routing rules` that describes when the agent should call it.
+      3. Rebuild: `docker compose up -d --build app`
+
+      ## Repository layout
+      ```
+      backend/app/
+        agent/          # LangGraph agent: agent.py, tools.py, prompt.py
+        api/routes/     # FastAPI routers (auth, orders, products, chat)
+        models/         # SQLAlchemy ORM models
+        repositories/   # DB access layer (OrderRepository, etc.)
+        schemas/        # Pydantic request/response schemas
+        vectorstore/    # ChromaDB ingestion and client
+        jobs/           # Background tasks (delivery status updates)
+      frontend/src/
+        components/     # Shared UI (layout/, chat/, ui/)
+        pages/          # Route-level page components
+        store/          # Zustand stores (auth, cart)
+        lib/            # API client helpers
+      ```
+
+      ## Key conventions
+      - All DB access goes through a repository class in `repositories/`; never query SQLAlchemy directly from routes or tools.
+      - Agent tools receive `user_id` and `order_repo` via closure from `build_tools()` — never pass them as tool arguments.
+      - FastAPI routes use dependency injection (`api/dependencies.py`) for the DB session, current user, and repositories.
+      - Frontend state lives in Zustand stores; never use local component state for auth or cart.
+      - Tailwind utility classes only — no custom CSS files.
