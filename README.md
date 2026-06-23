@@ -109,6 +109,12 @@ npm install
 npm run dev  # http://localhost:5173
 ```
 
+### 4. Setup development agent harness - skills for Cursor/Claude/etc
+Install [capa](https://capa.infragate.ai) and run
+```bash
+capa install
+```
+
 ## Running the Evaluation
 
 First, obtain a JWT token by signing up:
