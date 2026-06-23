@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ShoppingCart, Star, ChevronLeft, Truck, ShieldCheck, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { productsApi, type Product, type Review } from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
+import { flyToCart } from "@/lib/flyToCart";
 
 function Stars({ value, className = "h-4 w-4" }: { value: number; className?: string }) {
   return (
@@ -31,7 +32,8 @@ export function ProductDetail() {
   const [notFound, setNotFound] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
 
-  const { addItem, setOpen } = useCartStore();
+  const { addItem } = useCartStore();
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -79,8 +81,8 @@ export function ProductDetail() {
       : product.rating;
 
   const handleAddToCart = () => {
+    if (galleryRef.current) flyToCart(galleryRef.current);
     addItem(product);
-    setOpen(true);
   };
 
   return (
@@ -95,7 +97,7 @@ export function ProductDetail() {
       <div className="grid md:grid-cols-2 gap-8">
         {/* Gallery */}
         <div>
-          <div className="aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center">
+          <div ref={galleryRef} className="aspect-square rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center">
             {images.length > 0 ? (
               <img
                 src={images[activeImage]}

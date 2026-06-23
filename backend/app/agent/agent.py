@@ -1,7 +1,6 @@
-"""LangChain OpenAI agent with streaming support."""
+"""LangChain agent with streaming support (OpenAI or Ollama)."""
 from typing import AsyncGenerator, Optional
 
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
 from langgraph.prebuilt import create_react_agent
 
@@ -10,13 +9,36 @@ from app.agent.prompt import SYSTEM_PROMPT, GUEST_SYSTEM_PROMPT
 from app.agent.tools import build_tools
 
 
-def _build_agent(tools, prompt: str):
-    llm = ChatOpenAI(
-        model="gpt-4o-mini",
-        temperature=0.1,
-        streaming=True,
-        api_key=settings.OPENAI_API_KEY,
+def _build_llm():
+    provider = settings.LLM_PROVIDER.lower()
+
+    if provider == "openai":
+        from langchain_openai import ChatOpenAI
+
+        return ChatOpenAI(
+            model=settings.OPENAI_MODEL,
+            temperature=0.1,
+            streaming=True,
+            api_key=settings.OPENAI_API_KEY,
+        )
+
+    if provider == "ollama":
+        from langchain_ollama import ChatOllama
+
+        return ChatOllama(
+            model=settings.OLLAMA_MODEL,
+            temperature=0.1,
+            base_url=settings.OLLAMA_BASE_URL,
+        )
+
+    raise ValueError(
+        f"Unsupported LLM_PROVIDER: {settings.LLM_PROVIDER!r}. "
+        "Expected 'openai' or 'ollama'."
     )
+
+
+def _build_agent(tools, prompt: str):
+    llm = _build_llm()
     return create_react_agent(llm, tools, prompt=prompt)
 
 

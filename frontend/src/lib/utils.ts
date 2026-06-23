@@ -19,3 +19,13 @@ export function formatDate(date: string | Date): string {
     day: "numeric",
   }).format(new Date(date));
 }
+
+export function formatDateTime(date: string | Date): string {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(date));
+}

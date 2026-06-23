@@ -32,6 +32,7 @@ class OrderResponse(BaseModel):
     carrier: Optional[str] = None
     tracking: Optional[str] = None
     eta: Optional[datetime] = None
+    delivered_at: Optional[datetime] = None
     total: float
     created_at: datetime
     items: List[OrderItemResponse] = []

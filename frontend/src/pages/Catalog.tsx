@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Star, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { productsApi, type Product } from "@/lib/api";
 import { formatCurrency } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
+import { flyToCart } from "@/lib/flyToCart";
 
 const PAGE_SIZE = 20;
 
@@ -19,7 +20,7 @@ export function Catalog() {
   const [skip, setSkip] = useState(0);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const { addItem, setOpen } = useCartStore();
+  const { addItem } = useCartStore();
 
   useEffect(() => {
     productsApi.categories().then(setCategories);
@@ -54,9 +55,9 @@ export function Catalog() {
     load();
   }, [load]);
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: Product, cardEl: HTMLElement | null) => {
+    if (cardEl) flyToCart(cardEl);
     addItem(product);
-    setOpen(true);
   };
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
@@ -144,11 +145,21 @@ export function Catalog() {
   );
 }
 
-function ProductCard({ product, onAddToCart }: { product: Product; onAddToCart: (p: Product) => void }) {
+function ProductCard({
+  product,
+  onAddToCart,
+}: {
+  product: Product;
+  onAddToCart: (p: Product, cardEl: HTMLElement | null) => void;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const discountedPrice = product.price * (1 - product.discount_percentage / 100);
 
   return (
-    <div className="group flex flex-col rounded-xl border border-gray-100 bg-white hover:shadow-md transition-shadow overflow-hidden">
+    <div
+      ref={cardRef}
+      className="group flex flex-col rounded-xl border border-gray-100 bg-white hover:shadow-md transition-shadow overflow-hidden"
+    >
       <Link to={`/products/${product.id}`} className="block cursor-pointer">
         <div className="aspect-square bg-gray-50 overflow-hidden">
           {product.thumbnail ? (
@@ -193,7 +204,7 @@ function ProductCard({ product, onAddToCart }: { product: Product; onAddToCart: 
         <Button
           size="sm"
           className="mt-3 w-full"
-          onClick={() => onAddToCart(product)}
+          onClick={() => onAddToCart(product, cardRef.current)}
           disabled={product.stock === 0}
         >
           {product.stock === 0 ? "Out of stock" : "Add to cart"}

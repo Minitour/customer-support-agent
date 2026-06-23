@@ -1,13 +1,21 @@
+import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, ShoppingBag, Package, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth";
 import { useCartStore } from "@/store/cart";
+import { registerFlyTarget } from "@/lib/flyToCart";
 
 export function Navbar() {
   const { user, logout } = useAuthStore();
   const { items, setOpen } = useCartStore();
   const navigate = useNavigate();
+  const cartIconRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    registerFlyTarget(cartIconRef.current);
+    return () => registerFlyTarget(null);
+  }, [user]);
 
   const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
 
@@ -55,7 +63,9 @@ export function Navbar() {
                   onClick={() => setOpen(true)}
                   className="relative"
                 >
-                  <ShoppingCart className="h-4 w-4" />
+                  <span ref={cartIconRef} className="inline-flex">
+                    <ShoppingCart className="h-4 w-4" />
+                  </span>
                   {itemCount > 0 && (
                     <span
                       key={itemCount}

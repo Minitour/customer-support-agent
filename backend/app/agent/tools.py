@@ -60,10 +60,16 @@ def build_tools(user_id: Optional[int] = None, order_repo=None):
         if order is None:
             return f"No order with code '{order_id}' found for your account."
         eta_str = order.eta.strftime("%B %d, %Y") if order.eta else "unknown"
-        return (
-            f"Order {order.order_code}: status={order.status.value}, "
-            f"carrier={order.carrier}, tracking={order.tracking}, ETA={eta_str}."
+        delivered_str = (
+            order.delivered_at.strftime("%B %d, %Y at %I:%M %p") if order.delivered_at else None
         )
+        details = (
+            f"Order {order.order_code}: status={order.status.value}, "
+            f"carrier={order.carrier}, tracking={order.tracking}, ETA={eta_str}"
+        )
+        if delivered_str:
+            details += f", delivered on {delivered_str}"
+        return details + "."
 
     @tool
     async def get_order_history() -> str:

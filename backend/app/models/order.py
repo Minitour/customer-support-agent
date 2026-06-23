@@ -26,6 +26,7 @@ class Order(Base):
     carrier: Mapped[str] = mapped_column(String(100), nullable=True)
     tracking: Mapped[str] = mapped_column(String(200), nullable=True)
     eta: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
+    delivered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
     total: Mapped[float] = mapped_column(Float, default=0.0)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)

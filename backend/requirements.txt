@@ -15,6 +15,7 @@ httpx==0.28.1
 # LangChain + OpenAI
 langchain
 langchain-openai
+langchain-ollama
 langchain-chroma
 langchain-text-splitters
 langchain-community

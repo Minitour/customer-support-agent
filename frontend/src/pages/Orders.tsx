@@ -4,7 +4,7 @@ import { Package, ChevronRight, Truck, CheckCircle, XCircle, Clock } from "lucid
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ordersApi, type Order, type OrderStatus } from "@/lib/api";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { formatCurrency, formatDate, formatDateTime } from "@/lib/utils";
 
 function StatusBadge({ status }: { status: OrderStatus }) {
   const config: Record<OrderStatus, { label: string; variant: "default" | "secondary" | "success" | "warning" | "destructive" | "outline"; icon: React.ReactNode }> = {
@@ -144,6 +144,12 @@ export function OrderDetail() {
             <p className="text-gray-400">Placed</p>
             <p className="font-medium">{formatDate(order.created_at)}</p>
           </div>
+          {order.delivered_at && (
+            <div>
+              <p className="text-gray-400">Delivered</p>
+              <p className="font-medium">{formatDateTime(order.delivered_at)}</p>
+            </div>
+          )}
         </div>
       </div>
 

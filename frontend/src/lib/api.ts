@@ -104,6 +104,7 @@ export interface Order {
   carrier?: string;
   tracking?: string;
   eta?: string;
+  delivered_at?: string;
   total: number;
   created_at: string;
   items: OrderItem[];

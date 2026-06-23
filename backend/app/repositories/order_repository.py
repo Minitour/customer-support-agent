@@ -113,4 +113,6 @@ class OrderRepository:
         order = await self.db.get(Order, order_id)
         if order:
             order.status = status
+            if status == OrderStatus.delivered:
+                order.delivered_at = datetime.now(timezone.utc)
             await self.db.commit()
