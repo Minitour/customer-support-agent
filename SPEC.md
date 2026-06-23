@@ -127,7 +127,7 @@ Use cases:
 - Users can sign up and sign in. This is a demo project so no need to invest in the complexity of the auth system. Do the bear minimum to allow sign, sign up, and long-lived sessions.
 
 - Users can browse products catalog, add to cart, checkout, cancel order etc.
-- Orders placed in the database for more than 30 seconds are automatically transitioned into out for delivery (for the sake of demos)
+- Orders are automatically promoted through their lifecycle (created → received → processing → shipped → delivered) one stage every 30 seconds (for the sake of demos). An order can be cancelled while it is between created and processing (inclusive); once shipped it can no longer be cancelled.
 - Users can converse with the agent regarding their order status, ask questions about company policy and refund policy, but cannot perform any actions via the chatbot. The agent shall refuse to perform actions.
 - The agent shall have tools search_policy(query) and get_order_status(order_id). When the agent is bootstrap with tools, the tools for a given conversation must be bound to a specific user, meaning that it should not be allowed for a user to lookup order status of other users.
 ---

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Package, ChevronRight, Truck, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Package, ChevronRight, Truck, CheckCircle, XCircle, Clock, Inbox, Cog } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ordersApi, type Order, type OrderStatus } from "@/lib/api";
@@ -8,8 +8,10 @@ import { formatCurrency, formatDate, formatDateTime } from "@/lib/utils";
 
 function StatusBadge({ status }: { status: OrderStatus }) {
   const config: Record<OrderStatus, { label: string; variant: "default" | "secondary" | "success" | "warning" | "destructive" | "outline"; icon: React.ReactNode }> = {
-    placed: { label: "Placed", variant: "secondary", icon: <Clock className="h-3 w-3" /> },
-    out_for_delivery: { label: "Out for Delivery", variant: "warning", icon: <Truck className="h-3 w-3" /> },
+    created: { label: "Created", variant: "secondary", icon: <Clock className="h-3 w-3" /> },
+    received: { label: "Received", variant: "secondary", icon: <Inbox className="h-3 w-3" /> },
+    processing: { label: "Processing", variant: "warning", icon: <Cog className="h-3 w-3" /> },
+    shipped: { label: "Shipped", variant: "warning", icon: <Truck className="h-3 w-3" /> },
     delivered: { label: "Delivered", variant: "success", icon: <CheckCircle className="h-3 w-3" /> },
     cancelled: { label: "Cancelled", variant: "destructive", icon: <XCircle className="h-3 w-3" /> },
   };
@@ -113,7 +115,10 @@ export function OrderDetail() {
   if (loading) return <div className="max-w-2xl mx-auto px-4 py-8 text-gray-400">Loading...</div>;
   if (!order) return <div className="max-w-2xl mx-auto px-4 py-8 text-gray-400">Order not found</div>;
 
-  const canCancel = order.status === "placed" || order.status === "out_for_delivery";
+  const canCancel =
+    order.status === "created" ||
+    order.status === "received" ||
+    order.status === "processing";
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">

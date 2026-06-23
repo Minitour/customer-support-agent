@@ -31,6 +31,7 @@ def _serialize_order(order) -> OrderResponse:
         carrier=order.carrier,
         tracking=order.tracking,
         eta=order.eta,
+        delivered_at=order.delivered_at,
         total=order.total,
         created_at=order.created_at,
         items=items,

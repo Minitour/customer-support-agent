@@ -86,7 +86,13 @@ export const productsApi = {
 };
 
 // Orders
-export type OrderStatus = "placed" | "out_for_delivery" | "delivered" | "cancelled";
+export type OrderStatus =
+  | "created"
+  | "received"
+  | "processing"
+  | "shipped"
+  | "delivered"
+  | "cancelled";
 
 export interface OrderItem {
   id: number;

@@ -3,11 +3,17 @@ import string
 from datetime import datetime, timedelta, timezone
 from typing import Optional, List
 
-from sqlalchemy import select, and_
+from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.order import Order, OrderItem, OrderStatus
+from app.models.order import (
+    Order,
+    OrderItem,
+    OrderStatus,
+    CANCELLABLE_STATUSES,
+    PROMOTION_SEQUENCE,
+)
 
 
 def _generate_order_code() -> str:
@@ -67,7 +73,7 @@ class OrderRepository:
             tracking=tracking,
             eta=eta,
             total=total,
-            status=OrderStatus.placed,
+            status=OrderStatus.created,
         )
         self.db.add(order)
         await self.db.flush()
@@ -90,22 +96,19 @@ class OrderRepository:
         order = await self.get_by_id(order_id, user_id=user_id)
         if order is None:
             return None
-        if order.status not in (OrderStatus.placed, OrderStatus.out_for_delivery):
+        if order.status not in CANCELLABLE_STATUSES:
             return None
         order.status = OrderStatus.cancelled
         await self.db.commit()
         await self.db.refresh(order)
         return order
 
-    async def get_placed_older_than(self, seconds: int) -> List[Order]:
-        cutoff = datetime.now(timezone.utc) - timedelta(seconds=seconds)
+    async def get_promotable(self) -> List[Order]:
+        """Return all orders that can still advance to a later lifecycle stage
+        (i.e. not yet delivered and not cancelled)."""
+        promotable = [s for s in PROMOTION_SEQUENCE if s != OrderStatus.delivered]
         result = await self.db.execute(
-            select(Order).where(
-                and_(
-                    Order.status == OrderStatus.placed,
-                    Order.created_at <= cutoff,
-                )
-            )
+            select(Order).where(Order.status.in_(promotable))
         )
         return result.scalars().all()
 

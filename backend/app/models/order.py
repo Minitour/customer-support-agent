@@ -1,5 +1,6 @@
 import enum
 from datetime import datetime, timezone
+from typing import Optional
 
 from sqlalchemy import String, Float, Integer, DateTime, ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,10 +9,41 @@ from app.db.database import Base
 
 
 class OrderStatus(str, enum.Enum):
-    placed = "placed"
-    out_for_delivery = "out_for_delivery"
+    created = "created"
+    received = "received"
+    processing = "processing"
+    shipped = "shipped"
     delivered = "delivered"
     cancelled = "cancelled"
+
+
+# Linear lifecycle the background job promotes orders through, in order.
+PROMOTION_SEQUENCE = [
+    OrderStatus.created,
+    OrderStatus.received,
+    OrderStatus.processing,
+    OrderStatus.shipped,
+    OrderStatus.delivered,
+]
+
+# An order may be cancelled while in any state between created and processing
+# (inclusive). Once shipped or delivered it can no longer be cancelled.
+CANCELLABLE_STATUSES = (
+    OrderStatus.created,
+    OrderStatus.received,
+    OrderStatus.processing,
+)
+
+
+def next_status(status: OrderStatus) -> Optional[OrderStatus]:
+    """Return the next status in the lifecycle, or None if terminal/unknown."""
+    try:
+        idx = PROMOTION_SEQUENCE.index(status)
+    except ValueError:
+        return None
+    if idx + 1 < len(PROMOTION_SEQUENCE):
+        return PROMOTION_SEQUENCE[idx + 1]
+    return None
 
 
 class Order(Base):
@@ -21,7 +53,7 @@ class Order(Base):
     order_code: Mapped[str] = mapped_column(String(50), unique=True, nullable=False, index=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, index=True)
     status: Mapped[OrderStatus] = mapped_column(
-        Enum(OrderStatus), default=OrderStatus.placed, nullable=False
+        Enum(OrderStatus), default=OrderStatus.created, nullable=False
     )
     carrier: Mapped[str] = mapped_column(String(100), nullable=True)
     tracking: Mapped[str] = mapped_column(String(200), nullable=True)

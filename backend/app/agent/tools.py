@@ -82,11 +82,19 @@ def build_tools(user_id: Optional[int] = None, order_repo=None):
             eta_str = order.eta.strftime("%B %d, %Y") if order.eta else "unknown"
             date_str = order.created_at.strftime("%B %d, %Y")
             item_count = sum(i.quantity for i in order.items)
-            lines.append(
+            delivered_str = (
+                order.delivered_at.strftime("%B %d, %Y at %I:%M %p")
+                if order.delivered_at
+                else None
+            )
+            line = (
                 f"• {order.order_code} — placed {date_str}, "
                 f"status: {order.status.value}, "
-                f"{item_count} item(s), total: ${order.total:.2f}, ETA: {eta_str}."
+                f"{item_count} item(s), total: ${order.total:.2f}, ETA: {eta_str}"
             )
+            if delivered_str:
+                line += f", delivered on {delivered_str}"
+            lines.append(line + ".")
         return "\n".join(lines)
 
     return [search_policy, search_products, get_order_status, get_order_history]

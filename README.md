@@ -20,7 +20,7 @@ A full-stack fictional online store with an AI-powered customer support agent. T
 - **Product Catalog** — Browse 194 products, filter by category, search
 - **Cart & Checkout** — Add to cart, checkout → creates an order
 - **Orders** — View order list, detail page, cancel orders
-- **Auto-delivery** — Background job transitions `placed` orders → `out_for_delivery` after 30 seconds
+- **Auto-promotion** — Background job advances each order one stage (`created` → `received` → `processing` → `shipped` → `delivered`) every 30 seconds
 - **Support Chat** — Streamed AI responses with a collapsible tool-call side panel
 
 ## Agent Tools

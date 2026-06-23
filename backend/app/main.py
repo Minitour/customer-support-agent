@@ -31,6 +31,29 @@ async def lifespan(app: FastAPI):
             text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS delivered_at TIMESTAMPTZ")
         )
 
+    # Ensure the orderstatus enum has the current lifecycle values. ALTER TYPE
+    # ADD VALUE must run outside a transaction block, hence AUTOCOMMIT.
+    async with engine.connect() as conn:
+        autocommit_conn = await conn.execution_options(isolation_level="AUTOCOMMIT")
+        for value in ("created", "received", "processing", "shipped", "delivered", "cancelled"):
+            try:
+                await autocommit_conn.execute(
+                    text(f"ALTER TYPE orderstatus ADD VALUE IF NOT EXISTS '{value}'")
+                )
+            except Exception as exc:
+                print(f"[startup] enum migration skipped for '{value}': {exc}")
+
+    # Remap rows that still hold the legacy status values to the new lifecycle.
+    async with engine.begin() as conn:
+        for old, new in (("placed", "created"), ("out_for_delivery", "shipped")):
+            try:
+                await conn.execute(
+                    text("UPDATE orders SET status = :new WHERE status = :old"),
+                    {"new": new, "old": old},
+                )
+            except Exception as exc:
+                print(f"[startup] status remap skipped for '{old}': {exc}")
+
     # Seed relational DB
     async with AsyncSessionLocal() as db:
         repo = ProductRepository(db)
