@@ -5,7 +5,7 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, Tool
 from langgraph.prebuilt import create_react_agent
 
 from app.core.config import settings
-from app.agent.prompt import SYSTEM_PROMPT, GUEST_SYSTEM_PROMPT
+from app.agent.prompt import SYSTEM_PROMPT, GUEST_SYSTEM_PROMPT, GUARDRAILS
 from app.agent.tools import build_tools
 
 
@@ -76,6 +76,7 @@ async def stream_agent_response(
     is_guest = user_id is None
     tools = build_tools(user_id, order_repo, product_repo)
     prompt = GUEST_SYSTEM_PROMPT if is_guest else SYSTEM_PROMPT
+    prompt = f"{prompt}\n\n{GUARDRAILS}"
     if context_text:
         prompt = f"{prompt}\n\n{context_text}"
     agent = _build_agent(tools, prompt)
