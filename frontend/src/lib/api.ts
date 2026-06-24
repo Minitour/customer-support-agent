@@ -130,9 +130,25 @@ export interface ChatContext {
   products_in_cart: number[];
 }
 
+export interface ChatMessage {
+  role: string;
+  content: string;
+  created_at: string;
+}
+
+export interface ConversationMessagesResponse {
+  conversation_id: string;
+  messages: ChatMessage[];
+}
+
+export const chatApi = {
+  getConversation: (conversationId: string) =>
+    request<ConversationMessagesResponse>(`/chat/conversations/${conversationId}`),
+};
+
 export function streamChat(
-  messages: { role: string; content: string }[],
-  context: ChatContext,
+  opts: { conversationId?: string; message: string; context: ChatContext },
+  onConversation: (id: string) => void,
   onEvent: (event: { type: string; content?: string; name?: string; input?: string; output?: string }) => void,
   onDone: () => void,
   onError: (err: string) => void
@@ -146,7 +162,11 @@ export function streamChat(
       "Content-Type": "application/json",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ messages, context }),
+    body: JSON.stringify({
+      conversation_id: opts.conversationId ?? null,
+      message: opts.message,
+      context: opts.context,
+    }),
     signal: controller.signal,
   })
     .then(async (res) => {
@@ -169,7 +189,9 @@ export function streamChat(
           if (line.startsWith("data: ")) {
             try {
               const data = JSON.parse(line.slice(6));
-              if (data.type === "done") {
+              if (data.type === "conversation") {
+                onConversation(data.conversation_id);
+              } else if (data.type === "done") {
                 onDone();
               } else {
                 onEvent(data);

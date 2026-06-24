@@ -1,10 +1,8 @@
+import uuid
+from datetime import datetime
 from typing import List, Optional
+
 from pydantic import BaseModel, Field
-
-
-class ChatMessage(BaseModel):
-    role: str  # "user" or "assistant"
-    content: str
 
 
 class ChatContext(BaseModel):
@@ -19,5 +17,19 @@ class ChatContext(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    messages: List[ChatMessage]
+    conversation_id: Optional[uuid.UUID] = None
+    message: str
     context: Optional[ChatContext] = None
+
+
+class MessageOut(BaseModel):
+    role: str
+    content: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class ConversationMessagesResponse(BaseModel):
+    conversation_id: uuid.UUID
+    messages: List[MessageOut]

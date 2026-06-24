@@ -1,7 +1,7 @@
 """LangChain agent with streaming support (OpenAI or Ollama)."""
 from typing import AsyncGenerator, Optional
 
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
+from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.prebuilt import create_react_agent
 
 from app.core.config import settings
@@ -42,7 +42,18 @@ def _build_agent(tools, prompt: str):
     return create_react_agent(llm, tools, prompt=prompt)
 
 
-def _convert_messages(messages: list[dict]) -> list:
+def _convert_messages(messages: list[dict], context_text: Optional[str] = None) -> list:
+    """Convert DB message dicts to LangChain message objects.
+
+    The context_text (current page context) is merged into the FINAL user message
+    rather than added as a separate system message. ``create_react_agent`` already
+    injects the system prompt as the single leading system message, and chat
+    templates (e.g. Ollama/qwen) only honor that leading system slot — a second
+    system message mid-conversation is silently ignored. Folding the context into
+    the user's own turn guarantees the model reads it. The context is never
+    persisted, and since the latest user message is new every turn anyway, the
+    persisted history remains a stable, cacheable prefix.
+    """
     converted = []
     for m in messages:
         role = m["role"]
@@ -51,6 +62,13 @@ def _convert_messages(messages: list[dict]) -> list:
             converted.append(HumanMessage(content=content))
         elif role == "assistant":
             converted.append(AIMessage(content=content))
+
+    if context_text:
+        if converted and isinstance(converted[-1], HumanMessage):
+            merged = f"{converted[-1].content}\n\n{context_text}"
+            converted[-1] = HumanMessage(content=merged)
+        else:
+            converted.append(HumanMessage(content=context_text))
     return converted
 
 
@@ -75,12 +93,12 @@ async def stream_agent_response(
 
     is_guest = user_id is None
     tools = build_tools(user_id, order_repo, product_repo)
-    prompt = GUEST_SYSTEM_PROMPT if is_guest else SYSTEM_PROMPT
-    prompt = f"{prompt}\n\n{GUARDRAILS}"
-    if context_text:
-        prompt = f"{prompt}\n\n{context_text}"
+    base_prompt = GUEST_SYSTEM_PROMPT if is_guest else SYSTEM_PROMPT
+    # Keep the system prompt stable (cacheable prefix); context is appended as a
+    # trailing message in _convert_messages, never concatenated into the prompt.
+    prompt = f"{base_prompt}\n\n{GUARDRAILS}"
     agent = _build_agent(tools, prompt)
-    converted = _convert_messages(messages)
+    converted = _convert_messages(messages, context_text=context_text)
 
     async for event in agent.astream_events({"messages": converted}, version="v2"):
         kind = event["event"]

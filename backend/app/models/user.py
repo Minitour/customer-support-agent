@@ -17,3 +17,6 @@ class User(Base):
     )
 
     orders: Mapped[list["Order"]] = relationship("Order", back_populates="user", lazy="select")
+    conversations: Mapped[list["Conversation"]] = relationship(  # noqa: F821
+        "Conversation", back_populates="user", lazy="select"
+    )

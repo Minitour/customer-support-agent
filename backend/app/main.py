@@ -12,7 +12,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.core.config import settings
 from app.db.database import engine, Base, AsyncSessionLocal
-from app.models import User, Product, Order, OrderItem  # ensure models are registered
+from app.models import User, Product, Order, OrderItem, Conversation, ConversationMessage  # ensure models are registered
 from app.repositories.product_repository import ProductRepository
 from app.vectorstore.ingestion import ingest_policy_if_empty, ingest_products_if_empty
 from app.jobs.delivery_job import delivery_transition_loop
