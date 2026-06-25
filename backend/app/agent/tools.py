@@ -157,8 +157,6 @@ def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=Non
         total = f"${order.total:.2f}"
         lines.append(f"  Total: {total}")
         return "\n".join(lines)
-
-    return base_tools + [get_order_status, get_order_history, get_order_items]
     
     if escalate_to_human in base_tools:
         base_tools.remove(escalate_to_human)
@@ -191,4 +189,4 @@ def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=Non
             "submitted_message": submitted_message,
         })
     
-    return base_tools + [get_order_status, get_order_history, escalate_to_human]
+    return base_tools + [get_order_status, get_order_history, escalate_to_human, get_order_items]
