@@ -126,6 +126,26 @@
   align-items: center;
 }
 
+/* ── Tech icon marquee (cover slide) ───────────────────── */
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  /* Two identical copies side by side; shifting from -50% to 0 scrolls left → right */
+  animation: marquee-ltr 40s linear infinite;
+}
+
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
 /* ── Scrollbar (for code blocks with overflow) ─────────── */
 pre::-webkit-scrollbar {
   height: 4px;

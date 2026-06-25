@@ -17,21 +17,83 @@ fonts:
 contextMenu: false
 ---
 
-<div class="flex flex-col items-center justify-center h-full gap-5 select-none">
-  <div class="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-400">Academic Project · June 2026</div>
-  <h1 class="text-6xl font-bold leading-tight text-gray-900 max-w-2xl">
-    ShopEase<br/>Customer Support Agent
-  </h1>
-  <p class="text-xl text-gray-400 max-w-lg mt-1">
-    Automating common e-commerce support queries<br/>with a LangGraph ReAct agent
-  </p>
-  <div class="flex gap-3 mt-4 flex-wrap justify-center">
-    <span class="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-medium border border-indigo-100">FastAPI</span>
-    <span class="px-3 py-1 bg-violet-50 text-violet-700 rounded-full text-xs font-medium border border-violet-100">LangGraph</span>
-    <span class="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-100">ChromaDB</span>
-    <span class="px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-medium border border-amber-100">GPT-4o-mini</span>
-    <span class="px-3 py-1 bg-sky-50 text-sky-700 rounded-full text-xs font-medium border border-sky-100">PostgreSQL</span>
+<div class="absolute top-10 left-1/2 -translate-x-1/2 flex items-center gap-10 opacity-80 select-none">
+  <img src="./images/logos/sapienza.png" class="h-11 object-contain" alt="Sapienza Università di Roma" />
+  <div class="w-px h-9 bg-gray-200"></div>
+  <img src="./images/logos/program.png" class="h-11 object-contain" alt="GenAI School" />
+</div>
+
+<div class="flex flex-col items-center justify-center h-full gap-4 select-none">
+  <div class="flex items-center gap-3 text-gray-900">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 10a4 4 0 0 1-8 0M3.103 6.034h17.794"/><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/></svg>
+    <span class="text-7xl font-bold tracking-tight">ShopEase</span>
   </div>
+  <p class="text-2xl text-gray-400 font-medium">Customer Support Agent</p>
+  <div class="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-400 mt-2">The International Summer School on Generative AI</div>
+</div>
+
+<div class="marquee absolute bottom-8 left-0 right-0 select-none">
+  <div class="marquee__track">
+    <TechStrip />
+    <TechStrip />
+  </div>
+</div>
+
+---
+layout: center
+class: text-center
+---
+
+# The Team
+
+<div class="grid grid-cols-5 gap-6 mt-8 max-w-4xl mx-auto">
+
+  <div class="flex flex-col items-center gap-3">
+    <img src="./images/team/raounek.png" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
+    <div>
+      <div class="font-semibold text-gray-800 text-sm leading-tight">Raounek Zeghdoud</div>
+      <div class="text-xs text-gray-400 mt-1">Mines Paris – PSL</div>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center gap-3">
+    <div class="w-24 h-24 rounded-full border-2 border-gray-200 shadow-md overflow-hidden flex-shrink-0">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+        <rect width="100" height="100" fill="#f1f5f9"/>
+        <circle cx="50" cy="37" r="19" fill="#cbd5e1"/>
+        <ellipse cx="50" cy="85" rx="30" ry="23" fill="#cbd5e1"/>
+      </svg>
+    </div>
+    <div>
+      <div class="font-semibold text-gray-800 text-sm leading-tight">Nada Alrehaili</div>
+      <div class="text-xs text-gray-400 mt-1">University of Liverpool</div>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center gap-3">
+    <img src="./images/team/solene.png" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
+    <div>
+      <div class="font-semibold text-gray-800 text-sm leading-tight">Solène Delourme</div>
+      <div class="text-xs text-gray-400 mt-1">CentraleSupélec</div>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center gap-3">
+    <img src="./images/team/antonio.png" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
+    <div>
+      <div class="font-semibold text-gray-800 text-sm leading-tight">Antonio Zaitoun</div>
+      <div class="text-xs text-gray-400 mt-1">University of Haifa</div>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center gap-3">
+    <img src="./images/team/donatas.png" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
+    <div>
+      <div class="font-semibold text-gray-800 text-sm leading-tight">Donatas Iliška</div>
+      <div class="text-xs text-gray-400 mt-1">Kaunas University of Technology</div>
+    </div>
+  </div>
+
 </div>
 
 ---
@@ -55,7 +117,7 @@ class: text-center
   <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
     <div class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">03</div>
     <div class="font-semibold text-emerald-900">Evaluation</div>
-    <div class="text-sm text-gray-500 mt-1">30 scenarios across 3 categories</div>
+    <div class="text-sm text-gray-500 mt-1">30 scenarios · 97% tool accuracy · LLM-as-Judge</div>
   </div>
   <div class="bg-orange-50 rounded-xl p-5 border border-orange-100">
     <div class="text-xs font-bold uppercase tracking-wider text-orange-400 mb-1">04</div>
@@ -119,7 +181,7 @@ Not every support ticket needs a human.
       </div>
     </div>
     <div class="mt-5 p-4 bg-indigo-50 rounded-xl border border-indigo-100 text-sm text-indigo-800">
-      An LLM that can search policy documents and query a database can handle most of these automatically — without a human in the loop.
+      An agent that can search policy documents and query a database can handle most of these automatically — without a human in the loop.
     </div>
   </div>
 </div>
@@ -154,33 +216,74 @@ ShopEase is a fictional online store with a fully integrated AI support chat.
   </div>
   <div>
     <h3 class="font-semibold text-gray-700 mb-4">Stack</h3>
-    <div class="space-y-2 text-sm" v-click>
-      <div class="flex justify-between items-center py-2 border-b border-gray-100">
-        <span class="text-gray-500">Frontend</span>
-        <code class="text-xs bg-gray-100 px-2.5 py-1 rounded-md text-gray-700">React 18 + Vite + Tailwind</code>
+    <div class="space-y-1.5 text-sm" v-click>
+      <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+        <span class="text-gray-500 shrink-0">Frontend</span>
+        <div class="flex gap-1.5 items-center flex-wrap justify-end">
+          <span class="flex items-center gap-1 text-xs bg-sky-50 text-sky-700 px-2 py-0.5 rounded-md border border-sky-100 font-medium"><React :size="14" /> React 18</span>
+          <span class="flex items-center gap-1 text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded-md border border-purple-100 font-medium"><Vite :size="14" /> Vite</span>
+          <span class="flex items-center gap-1 text-xs bg-cyan-50 text-cyan-700 px-2 py-0.5 rounded-md border border-cyan-100 font-medium"><TailwindCss :size="14" /> Tailwind</span>
+        </div>
       </div>
-      <div class="flex justify-between items-center py-2 border-b border-gray-100">
-        <span class="text-gray-500">Backend</span>
-        <code class="text-xs bg-gray-100 px-2.5 py-1 rounded-md text-gray-700">FastAPI + async SQLAlchemy</code>
+      <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+        <span class="text-gray-500 shrink-0">Backend</span>
+        <div class="flex gap-1.5 items-center flex-wrap justify-end">
+          <span class="flex items-center gap-1 text-xs bg-teal-50 text-teal-700 px-2 py-0.5 rounded-md border border-teal-100 font-medium"><Fastapi :size="14" /> FastAPI</span>
+          <span class="flex items-center gap-1 text-xs bg-red-50 text-red-600 px-2 py-0.5 rounded-md border border-red-100 font-medium"><Sqlalchemy :size="14" /> SQLAlchemy</span>
+        </div>
       </div>
-      <div class="flex justify-between items-center py-2 border-b border-gray-100">
-        <span class="text-gray-500">Database</span>
-        <code class="text-xs bg-gray-100 px-2.5 py-1 rounded-md text-gray-700">PostgreSQL 16</code>
+      <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+        <span class="text-gray-500 shrink-0">Database</span>
+        <div class="flex gap-1.5 items-center justify-end">
+          <span class="flex items-center gap-1 text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md border border-blue-100 font-medium"><Postgresql :size="14" /> PostgreSQL 16</span>
+        </div>
       </div>
-      <div class="flex justify-between items-center py-2 border-b border-gray-100">
-        <span class="text-gray-500">Vector store</span>
-        <code class="text-xs bg-gray-100 px-2.5 py-1 rounded-md text-gray-700">ChromaDB + text-embedding-3-small</code>
+      <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+        <span class="text-gray-500 shrink-0">Vector store</span>
+        <div class="flex gap-1.5 items-center flex-wrap justify-end">
+          <span class="flex items-center gap-1 text-xs bg-violet-50 text-violet-700 px-2 py-0.5 rounded-md border border-violet-100 font-medium"><Chroma :size="14" /> ChromaDB</span>
+          <span class="flex items-center gap-1 text-xs bg-gray-50 text-gray-600 px-2 py-0.5 rounded-md border border-gray-200 font-medium"><Openai :size="14" variant="light" /> text-embedding-3-small</span>
+        </div>
       </div>
-      <div class="flex justify-between items-center py-2 border-b border-gray-100">
-        <span class="text-gray-500">Agent</span>
-        <code class="text-xs bg-gray-100 px-2.5 py-1 rounded-md text-gray-700">LangGraph ReAct + GPT-4o-mini</code>
+      <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+        <span class="text-gray-500 shrink-0">Agent</span>
+        <div class="flex gap-1.5 items-center flex-wrap justify-end">
+          <span class="flex items-center gap-1 text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-100 font-medium"><Langgraph :size="14" /> LangGraph ReAct</span>
+          <span class="flex items-center gap-1 text-xs bg-gray-50 text-gray-600 px-2 py-0.5 rounded-md border border-gray-200 font-medium"><Openai :size="14" variant="light" /> GPT-4o-mini</span>
+        </div>
       </div>
-      <div class="flex justify-between items-center py-2">
-        <span class="text-gray-500">Alt. LLM</span>
-        <code class="text-xs bg-gray-100 px-2.5 py-1 rounded-md text-gray-700">Ollama + Qwen Coder Instruct</code>
+      <div class="flex justify-between items-center py-1.5">
+        <span class="text-gray-500 shrink-0">Alt. LLM</span>
+        <div class="flex gap-1.5 items-center flex-wrap justify-end">
+          <span class="flex items-center gap-1 text-xs bg-orange-50 text-orange-700 px-2 py-0.5 rounded-md border border-orange-100 font-medium"><Ollama :size="14" /> Ollama</span>
+          <span class="flex items-center gap-1 text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-100 font-medium"><Qwen :size="14" variant="light" /> Qwen Coder</span>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+---
+layout: center
+class: text-center
+---
+
+# See it in action
+
+---
+layout: center
+class: text-center
+---
+
+<div class="absolute inset-0 flex items-center justify-center p-3">
+  <video
+    src="./images/demo.mov"
+    autoplay
+    loop
+    muted
+    playsinline
+    class="max-w-full max-h-full w-auto h-auto rounded-[28px] shadow-2xl border border-gray-200 object-contain"
+  ></video>
 </div>
 
 ---
@@ -252,7 +355,7 @@ class: text-center
 
 # Tools and data sources
 
-<div class="mt-2 text-sm">
+<div class="mt-2 text-xs leading-tight">
 
 | Tool | Access | Source | Detail |
 |------|--------|--------|--------|
@@ -261,19 +364,22 @@ class: text-center
 | `get_products_by_id(ids)` | Guest + Auth | PostgreSQL | Direct ID lookup · includes stock |
 | `get_order_status(order_id)` | Auth only | PostgreSQL | User-scoped · carrier + ETA |
 | `get_order_history()` | Auth only | PostgreSQL | All orders · most-recent first |
+| `get_order_items(order_id)` | Auth only | PostgreSQL | Line items for a single order |
+| `escalate_to_human(reason, order_id)` | Auth only | PostgreSQL | Hand off to a human · with order context |
+| `escalate_to_human(reason)` | Guest | PostgreSQL | Hand off to a human · guest |
 
 </div>
 
-<div class="grid grid-cols-2 gap-4 mt-5 text-sm">
-  <div v-click class="p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+<div class="grid grid-cols-2 gap-3 mt-3 text-xs">
+  <div v-click class="p-3 bg-indigo-50 rounded-xl border border-indigo-100">
     <strong class="text-indigo-800">ChromaDB</strong>
-    <div class="text-gray-600 mt-1.5">
+    <div class="text-gray-600 mt-1">
       Policy documents and product descriptions embedded at startup with <code>text-embedding-3-small</code>. Similarity search at query time.
     </div>
   </div>
-  <div v-click class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+  <div v-click class="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
     <strong class="text-emerald-800">PostgreSQL</strong>
-    <div class="text-gray-600 mt-1.5">
+    <div class="text-gray-600 mt-1">
       Three tables: Users, Products, Orders. A background job advances each order one stage every 30 seconds — from <code>created</code> to <code>delivered</code>.
     </div>
   </div>
@@ -332,47 +438,60 @@ class: text-center
 
 ---
 
-# 30 scenarios across 3 categories
+# 30 scenarios across 4 categories
 
-<div class="grid grid-cols-3 gap-4 mt-5">
+<div class="grid grid-cols-4 gap-3 mt-4">
 
-<div v-click class="bg-indigo-50 border border-indigo-100 rounded-2xl p-4">
-<div class="font-semibold text-indigo-800 mb-3 text-sm">Policy · 12 scenarios</div>
-<div class="text-xs space-y-1.5 text-gray-600">
-  <div class="p-2 bg-white rounded-lg border border-indigo-50">Return window — 30 days</div>
-  <div class="p-2 bg-white rounded-lg border border-indigo-50">Sale items → store credit only</div>
-  <div class="p-2 bg-white rounded-lg border border-indigo-50">International shipping zones</div>
-  <div class="p-2 bg-white rounded-lg border border-indigo-50">Free shipping at $50</div>
-  <div class="p-2 bg-white rounded-lg border border-indigo-50">Payment methods + BNPL</div>
-  <div class="p-2 bg-white rounded-lg border border-indigo-50">Laptop warranty (1 year)</div>
-  <div class="p-2 bg-white rounded-lg border border-indigo-50">Non-returnable items</div>
-  <div class="p-2 bg-white rounded-lg border border-indigo-50">Data deletion rights</div>
+<div v-click class="bg-indigo-50 border border-indigo-100 rounded-2xl p-3">
+<div class="font-semibold text-indigo-800 mb-2 text-sm">Policy · 6</div>
+<div class="text-xs space-y-1 text-gray-600">
+  <div class="px-2 py-1 bg-white rounded-md border border-indigo-50">Return policy</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-indigo-50">Free shipping</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-indigo-50">Warranty</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-indigo-50">Payment methods</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-indigo-50">No answer available</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-indigo-50">Guest question</div>
 </div>
 </div>
 
-<div v-click class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
-<div class="font-semibold text-emerald-800 mb-3 text-sm">Order · 12 scenarios</div>
-<div class="text-xs space-y-1.5 text-gray-600">
-  <div class="p-2 bg-white rounded-lg border border-emerald-50">Lookup with valid order code</div>
-  <div class="p-2 bg-white rounded-lg border border-emerald-50">Missing ID → agent asks first</div>
-  <div class="p-2 bg-white rounded-lg border border-emerald-50">Multi-turn ID collection</div>
-  <div class="p-2 bg-white rounded-lg border border-emerald-50">Non-existent order code</div>
-  <div class="p-2 bg-white rounded-lg border border-emerald-50">Tracking number + ETA</div>
-  <div class="p-2 bg-white rounded-lg border border-emerald-50">Lowercase code handling</div>
-  <div class="p-2 bg-white rounded-lg border border-emerald-50">Two orders in one message</div>
-  <div class="p-2 bg-white rounded-lg border border-emerald-50">Cross-user access denial</div>
+<div v-click class="bg-violet-50 border border-violet-100 rounded-2xl p-3">
+<div class="font-semibold text-violet-800 mb-2 text-sm">Product · 6</div>
+<div class="text-xs space-y-1 text-gray-600">
+  <div class="px-2 py-1 bg-white rounded-md border border-violet-50">Search by keyword</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-violet-50">Search by category</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-violet-50">Product not sold</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-violet-50">Price/stock by id</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-violet-50">Search + details</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-violet-50">Out of scope</div>
 </div>
 </div>
 
-<div v-click class="bg-orange-50 border border-orange-100 rounded-2xl p-4">
-<div class="font-semibold text-orange-800 mb-3 text-sm">Escalation · 6 scenarios</div>
-<div class="text-xs space-y-1.5 text-gray-600">
-  <div class="p-2 bg-white rounded-lg border border-orange-50">Cancel subscription + refund</div>
-  <div class="p-2 bg-white rounded-lg border border-orange-50">Process a refund immediately</div>
-  <div class="p-2 bg-white rounded-lg border border-orange-50">Modify a shipping address</div>
-  <div class="p-2 bg-white rounded-lg border border-orange-50">Off-topic request (poem)</div>
-  <div class="p-2 bg-white rounded-lg border border-orange-50">Explicit human agent request</div>
-  <div class="p-2 bg-white rounded-lg border border-orange-50">Fraud / account compromise</div>
+<div v-click class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3">
+<div class="font-semibold text-emerald-800 mb-2 text-sm">Order · 11</div>
+<div class="text-xs space-y-1 text-gray-600">
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">Order status</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">Tracking number</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">ETA</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">History</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">Non-existent order</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">Status without ID</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">Cancel without ID</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">History + status</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">Status + policy</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">Items in one order</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-emerald-50">Items across orders</div>
+</div>
+</div>
+
+<div v-click class="bg-orange-50 border border-orange-100 rounded-2xl p-3">
+<div class="font-semibold text-orange-800 mb-2 text-sm">Escalation · 6</div>
+<div class="text-xs space-y-1 text-gray-600">
+  <div class="px-2 py-1 bg-white rounded-md border border-orange-50">Cancellation</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-orange-50">Refund</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-orange-50">Address change</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-orange-50">Human request</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-orange-50">Human request (guest)</div>
+  <div class="px-2 py-1 bg-white rounded-md border border-orange-50">Cancel non-existent order</div>
 </div>
 </div>
 
@@ -380,54 +499,140 @@ class: text-center
 
 ---
 
-# What the evaluation misses
+# Evaluation results
 
-Deterministic testing covers tool selection reliably. Response quality is a harder problem.
-
-<div class="grid grid-cols-2 gap-8 mt-6">
-
-<div v-click>
-<h3 class="font-semibold text-gray-700 mb-3">What's reliable</h3>
-<div class="space-y-2 text-sm text-gray-600">
-  <div class="flex gap-2.5 items-start">
-    <span class="text-emerald-500 font-bold">✓</span>
-    <span>The agent called <code>search_policy</code> — or didn't</span>
+<div class="grid grid-cols-4 gap-3 mt-3">
+  <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-3.5 text-center">
+    <div class="text-4xl font-bold text-indigo-700 leading-none">30</div>
+    <div class="text-xs text-indigo-400 font-medium mt-1.5 uppercase tracking-wide">scenarios</div>
   </div>
-  <div class="flex gap-2.5 items-start">
-    <span class="text-emerald-500 font-bold">✓</span>
-    <span>The response contains "escalating" when it should</span>
+  <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3.5 text-center">
+    <div class="text-4xl font-bold text-emerald-700 leading-none">97%</div>
+    <div class="text-xs text-emerald-400 font-medium mt-1.5 uppercase tracking-wide">correct tool use</div>
   </div>
-  <div class="flex gap-2.5 items-start">
-    <span class="text-emerald-500 font-bold">✓</span>
-    <span>The agent asked for an order ID before calling the order tool</span>
+  <div class="bg-amber-50 border border-amber-100 rounded-xl p-3.5 text-center">
+    <div class="text-4xl font-bold text-amber-600 leading-none">4.80<span class="text-xl text-amber-300 font-normal">/5</span></div>
+    <div class="text-xs text-amber-400 font-medium mt-1.5 uppercase tracking-wide">best judge avg</div>
   </div>
-  <div class="flex gap-2.5 items-start">
-    <span class="text-emerald-500 font-bold">✓</span>
-    <span>The response was non-empty</span>
-  </div>
-</div>
-</div>
-
-<div v-click>
-<h3 class="font-semibold text-gray-700 mb-3">What it misses</h3>
-<div class="space-y-2 text-sm text-gray-600">
-  <div class="flex gap-2.5 items-start">
-    <span class="text-red-400 font-bold">✗</span>
-    <span>Did it quote the correct return window (30 days), or just some policy text?</span>
-  </div>
-  <div class="flex gap-2.5 items-start">
-    <span class="text-red-400 font-bold">✗</span>
-    <span>Was the response clear, or technically accurate but confusing?</span>
-  </div>
-  <div class="flex gap-2.5 items-start">
-    <span class="text-red-400 font-bold">✗</span>
-    <span>Did it give the right carrier and ETA, or just a valid-looking response?</span>
+  <div class="bg-violet-50 border border-violet-100 rounded-xl p-3.5 text-center">
+    <div class="text-4xl font-bold text-violet-700 leading-none">3</div>
+    <div class="text-xs text-violet-400 font-medium mt-1.5 uppercase tracking-wide">judge models</div>
   </div>
 </div>
 
-<div class="mt-4 p-3.5 bg-yellow-50 rounded-xl border border-yellow-200 text-xs text-yellow-800">
-  Closing this gap requires a second evaluation pass: either human review or LLM-as-a-Judge with a reference answer per scenario.
+<div class="grid grid-cols-2 gap-6 mt-4">
+
+<div>
+  <div class="flex items-baseline gap-2 mb-2">
+    <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Execution</span>
+    <span class="text-xs text-gray-400">· did the agent call the right tools?</span>
+  </div>
+  <div class="text-xs font-semibold text-gray-500 mb-1.5">By category</div>
+  <div class="space-y-1.5 text-xs">
+    <div class="flex items-center gap-2">
+      <span class="w-20 text-gray-500 text-right shrink-0">Policy</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width:100%"></div></div>
+      <span class="text-emerald-600 font-semibold w-10 text-right">6/6</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-20 text-gray-500 text-right shrink-0">Product</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width:100%"></div></div>
+      <span class="text-emerald-600 font-semibold w-10 text-right">7/7</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-20 text-gray-500 text-right shrink-0">Order</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width:91.7%"></div></div>
+      <span class="text-amber-500 font-semibold w-10 text-right">11/12</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-20 text-gray-500 text-right shrink-0">Escalation</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width:100%"></div></div>
+      <span class="text-emerald-600 font-semibold w-10 text-right">5/5</span>
+    </div>
+  </div>
+  <div class="text-xs font-semibold text-gray-500 mt-3 mb-1.5">By tool type</div>
+  <div class="space-y-1.5 text-xs">
+    <div class="flex items-center gap-2">
+      <span class="w-20 text-gray-500 text-right shrink-0">Single tool</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-indigo-500 rounded-full" style="width:100%"></div></div>
+      <span class="text-indigo-600 font-semibold w-10 text-right">21/21</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-20 text-gray-500 text-right shrink-0">Multi-tool</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-indigo-500 rounded-full" style="width:80%"></div></div>
+      <span class="text-amber-500 font-semibold w-10 text-right">4/5</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-20 text-gray-500 text-right shrink-0">No tool</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-indigo-500 rounded-full" style="width:100%"></div></div>
+      <span class="text-indigo-600 font-semibold w-10 text-right">4/4</span>
+    </div>
+  </div>
 </div>
+
+<div>
+  <div class="flex items-baseline gap-2 mb-2">
+    <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Quality</span>
+    <span class="text-xs text-gray-400">· LLM-as-Judge across 3 models</span>
+  </div>
+  <div class="text-xs font-semibold text-gray-500 mb-1.5">Overall score /5</div>
+  <div class="space-y-2 text-xs">
+    <div class="flex items-center gap-2">
+      <span class="w-24 text-gray-500 text-right shrink-0">gpt-4o-mini</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-indigo-600 rounded-full" style="width:96%"></div></div>
+      <span class="text-indigo-600 font-bold w-8">4.80</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-24 text-gray-500 text-right shrink-0">o3-mini</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width:92.6%"></div></div>
+      <span class="text-emerald-600 font-bold w-8">4.63</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-24 text-gray-500 text-right shrink-0">gpt-4o</span>
+      <div class="flex-1 bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:88.4%"></div></div>
+      <span class="text-amber-500 font-bold w-8">4.42</span>
+    </div>
+  </div>
+  <div class="text-xs font-semibold text-gray-500 mt-3 mb-2">By dimension</div>
+  <div class="flex gap-3">
+    <div class="flex-1 flex flex-col items-center gap-1">
+      <div class="flex gap-0.5 items-end" style="height:48px">
+        <div class="w-2.5 bg-indigo-600 rounded-t-sm" style="height:95%"></div>
+        <div class="w-2.5 bg-emerald-500 rounded-t-sm" style="height:91%"></div>
+        <div class="w-2.5 bg-amber-400 rounded-t-sm" style="height:84%"></div>
+      </div>
+      <span class="text-xs text-gray-500 text-center">Grounding</span>
+    </div>
+    <div class="flex-1 flex flex-col items-center gap-1">
+      <div class="flex gap-0.5 items-end" style="height:48px">
+        <div class="w-2.5 bg-indigo-600 rounded-t-sm" style="height:94%"></div>
+        <div class="w-2.5 bg-emerald-500 rounded-t-sm" style="height:89%"></div>
+        <div class="w-2.5 bg-amber-400 rounded-t-sm" style="height:83%"></div>
+      </div>
+      <span class="text-xs text-gray-500 text-center">Accuracy</span>
+    </div>
+    <div class="flex-1 flex flex-col items-center gap-1">
+      <div class="flex gap-0.5 items-end" style="height:48px">
+        <div class="w-2.5 bg-indigo-600 rounded-t-sm" style="height:94%"></div>
+        <div class="w-2.5 bg-emerald-500 rounded-t-sm" style="height:91%"></div>
+        <div class="w-2.5 bg-amber-400 rounded-t-sm" style="height:88%"></div>
+      </div>
+      <span class="text-xs text-gray-500 text-center">Helpfulness</span>
+    </div>
+    <div class="flex-1 flex flex-col items-center gap-1">
+      <div class="flex gap-0.5 items-end" style="height:48px">
+        <div class="w-2.5 bg-indigo-600 rounded-t-sm" style="height:99%"></div>
+        <div class="w-2.5 bg-emerald-500 rounded-t-sm" style="height:100%"></div>
+        <div class="w-2.5 bg-amber-400 rounded-t-sm" style="height:97%"></div>
+      </div>
+      <span class="text-xs text-gray-500 text-center">Tone</span>
+    </div>
+  </div>
+  <div class="flex gap-4 mt-2">
+    <div class="flex items-center gap-1.5"><div class="w-3 h-2 rounded-sm bg-indigo-600"></div><span class="text-xs text-gray-500">gpt-4o-mini</span></div>
+    <div class="flex items-center gap-1.5"><div class="w-3 h-2 rounded-sm bg-emerald-500"></div><span class="text-xs text-gray-500">o3-mini</span></div>
+    <div class="flex items-center gap-1.5"><div class="w-3 h-2 rounded-sm bg-amber-400"></div><span class="text-xs text-gray-500">gpt-4o</span></div>
+  </div>
 </div>
 
 </div>
@@ -484,9 +689,9 @@ class: text-center
 
 # Next steps
 
-<div class="grid grid-cols-2 gap-5 mt-6">
+<div class="flex flex-col gap-5 mt-6">
 
-<div v-click class="contents">
+<div v-click class="grid grid-cols-2 gap-5">
   <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 hover:border-indigo-200 hover:bg-indigo-50 transition-colors">
     <div class="font-semibold text-gray-800 mb-2">Agentic actions</div>
     <div class="text-sm text-gray-600">
@@ -501,13 +706,7 @@ class: text-center
   </div>
 </div>
 
-<div v-click class="contents">
-  <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 hover:border-violet-200 hover:bg-violet-50 transition-colors">
-    <div class="font-semibold text-gray-800 mb-2">LLM-as-a-Judge</div>
-    <div class="text-sm text-gray-600">
-      Add a second LLM call that reads the agent's response and the expected answer, then scores it for accuracy and completeness. This directly addresses the quality gap that keyword-based checks can't reach.
-    </div>
-  </div>
+<div v-click class="grid grid-cols-1 gap-5">
   <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 hover:border-amber-200 hover:bg-amber-50 transition-colors">
     <div class="font-semibold text-gray-800 mb-2">Session memory</div>
     <div class="text-sm text-gray-600">
@@ -523,78 +722,50 @@ layout: center
 class: text-center
 ---
 
-# The Team
-
-<div class="grid grid-cols-5 gap-6 mt-8 max-w-4xl mx-auto">
-
-  <div class="flex flex-col items-center gap-3">
-    <img src="./images/team/raounek.png" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
-    <div>
-      <div class="font-semibold text-gray-800 text-sm leading-tight">Raounek Zeghdoud</div>
-      <div class="text-xs text-gray-400 mt-1">Mines Paris – PSL</div>
-    </div>
-  </div>
-
-  <div class="flex flex-col items-center gap-3">
-    <div class="w-24 h-24 rounded-full border-2 border-gray-200 shadow-md overflow-hidden flex-shrink-0">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-        <rect width="100" height="100" fill="#f1f5f9"/>
-        <circle cx="50" cy="37" r="19" fill="#cbd5e1"/>
-        <ellipse cx="50" cy="85" rx="30" ry="23" fill="#cbd5e1"/>
-      </svg>
-    </div>
-    <div>
-      <div class="font-semibold text-gray-800 text-sm leading-tight">Nada Alrehaili</div>
-      <div class="text-xs text-gray-400 mt-1">University of Liverpool</div>
-    </div>
-  </div>
-
-  <div class="flex flex-col items-center gap-3">
-    <img src="./images/team/solene.png" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
-    <div>
-      <div class="font-semibold text-gray-800 text-sm leading-tight">Solène Delourme</div>
-      <div class="text-xs text-gray-400 mt-1">CentraleSupélec</div>
-    </div>
-  </div>
-
-  <div class="flex flex-col items-center gap-3">
-    <img src="./images/team/antonio.png" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
-    <div>
-      <div class="font-semibold text-gray-800 text-sm leading-tight">Antonio Zaitoun</div>
-      <div class="text-xs text-gray-400 mt-1">University of Haifa</div>
-    </div>
-  </div>
-
-  <div class="flex flex-col items-center gap-3">
-    <img src="./images/team/donatas.png" class="w-24 h-24 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
-    <div>
-      <div class="font-semibold text-gray-800 text-sm leading-tight">Donatas Iliška</div>
-      <div class="text-xs text-gray-400 mt-1">Kaunas University of Technology</div>
-    </div>
-  </div>
-
-</div>
-
----
-layout: center
-class: text-center
----
-
 <div class="flex flex-col items-center justify-center h-full gap-6">
   <div class="text-6xl font-bold text-gray-900">Thank you</div>
   <div class="text-xl text-gray-400">Questions?</div>
-  <div class="mt-6 grid grid-cols-3 gap-4 max-w-xl">
-    <div class="p-3.5 bg-indigo-50 rounded-xl text-center border border-indigo-100">
-      <div class="text-xs font-mono text-indigo-400 mb-1">Backend</div>
-      <div class="text-sm text-indigo-800 font-medium">FastAPI + LangGraph</div>
+  <div class="mt-8 grid grid-cols-5 gap-6 max-w-4xl mx-auto">
+    <div class="flex flex-col items-center gap-2.5">
+      <img src="./images/team/raounek.png" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
+      <div>
+        <div class="font-semibold text-gray-800 text-sm leading-tight">Raounek Zeghdoud</div>
+        <div class="text-xs text-gray-400 mt-1">Mines Paris – PSL</div>
+      </div>
     </div>
-    <div class="p-3.5 bg-violet-50 rounded-xl text-center border border-violet-100">
-      <div class="text-xs font-mono text-violet-400 mb-1">Frontend</div>
-      <div class="text-sm text-violet-800 font-medium">React + Tailwind</div>
+    <div class="flex flex-col items-center gap-2.5">
+      <div class="w-20 h-20 rounded-full border-2 border-gray-200 shadow-md overflow-hidden flex-shrink-0">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <rect width="100" height="100" fill="#f1f5f9"/>
+          <circle cx="50" cy="37" r="19" fill="#cbd5e1"/>
+          <ellipse cx="50" cy="85" rx="30" ry="23" fill="#cbd5e1"/>
+        </svg>
+      </div>
+      <div>
+        <div class="font-semibold text-gray-800 text-sm leading-tight">Nada Alrehaili</div>
+        <div class="text-xs text-gray-400 mt-1">University of Liverpool</div>
+      </div>
     </div>
-    <div class="p-3.5 bg-amber-50 rounded-xl text-center border border-amber-100">
-      <div class="text-xs font-mono text-amber-400 mb-1">Agent</div>
-      <div class="text-sm text-amber-800 font-medium">GPT-4o-mini · ReAct</div>
+    <div class="flex flex-col items-center gap-2.5">
+      <img src="./images/team/solene.png" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
+      <div>
+        <div class="font-semibold text-gray-800 text-sm leading-tight">Solène Delourme</div>
+        <div class="text-xs text-gray-400 mt-1">CentraleSupélec</div>
+      </div>
+    </div>
+    <div class="flex flex-col items-center gap-2.5">
+      <img src="./images/team/antonio.png" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
+      <div>
+        <div class="font-semibold text-gray-800 text-sm leading-tight">Antonio Zaitoun</div>
+        <div class="text-xs text-gray-400 mt-1">University of Haifa</div>
+      </div>
+    </div>
+    <div class="flex flex-col items-center gap-2.5">
+      <img src="./images/team/donatas.png" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-100 shadow-md" />
+      <div>
+        <div class="font-semibold text-gray-800 text-sm leading-tight">Donatas Iliška</div>
+        <div class="text-xs text-gray-400 mt-1">Kaunas University of Technology</div>
+      </div>
     </div>
   </div>
 </div>

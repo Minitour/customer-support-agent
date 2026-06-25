@@ -9,9 +9,12 @@
   "dependencies": {
     "@iconify-json/mdi": "^1.2.3",
     "@slidev/cli": "^0.50.0",
-    "@slidev/theme-default": "latest"
+    "@slidev/theme-default": "latest",
+    "@thesvg/icons": "^3.0.17"
   },
   "devDependencies": {
+    "@iconify-json/logos": "^1.2.11",
+    "@iconify-json/lucide": "^1.2.114",
     "playwright-chromium": "^1.40.0"
   },
   "packageManager": "npm@11.6.0"
