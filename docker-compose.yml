@@ -46,6 +46,7 @@ services:
       POLICY_DIR_PATH: /app/.data/policy
     volumes:
       - ./.data:/app/.data:ro
+      - ./tests:/app/tests
     depends_on:
       postgres:
         condition: service_healthy

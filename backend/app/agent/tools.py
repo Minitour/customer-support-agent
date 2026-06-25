@@ -137,6 +137,28 @@ def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=Non
             lines.append(line + ".")
         return "\n".join(lines)
     
+    @tool
+    async def get_order_items(order_id: str) -> str:
+        """Look up the detailed list of products inside a specific order by its order code (e.g. 'A12345'). Use this when a customer asks what products are in an order, what they bought, or wants a breakdown of their order contents."""
+        order = await order_repo.get_by_code(order_id.strip().upper(), user_id=user_id)
+        if order is None:
+            return f"No order with code '{order_id}' found for your account."
+        if not order.items:
+            return f"Order {order.order_code} has no items."
+        lines = [f"Order {order.order_code} contains:"]
+        for item in order.items:
+            product_name = item.product.title if item.product else f"Product ID {item.product_id}"
+            try:
+                unit_price = f"${float(item.unit_price):.2f}"
+            except (ValueError, TypeError):
+                unit_price = "N/A"
+            lines.append(
+                f"  • {product_name} — qty: {item.quantity}, unit price: {unit_price}"
+            )
+        total = f"${order.total:.2f}"
+        lines.append(f"  Total: {total}")
+        return "\n".join(lines)
+
     if escalate_to_human in base_tools:
         base_tools.remove(escalate_to_human)
     
@@ -168,4 +190,4 @@ def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=Non
             "submitted_message": submitted_message,
         })
     
-    return base_tools + [get_order_status, get_order_history, escalate_to_human]
+    return base_tools + [get_order_status, get_order_history, escalate_to_human, get_order_items]

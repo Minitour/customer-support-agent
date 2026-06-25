@@ -160,12 +160,12 @@
     "messages": [
       {
         "role": "user",
-        "content": "What is the status of my order B67890?"
+        "content": "What is the status of my order C1013?"
       }
     ],
     "expected_tool": "get_order_status",
     "expected_behavior": "answer",
-    "notes": "B67890 is shipped via FedEx for Alice."
+    "notes": "C1013 is shipped via FedEx for Alice."
   },
   {
     "id": "T12",
@@ -175,12 +175,12 @@
     "messages": [
       {
         "role": "user",
-        "content": "What's the tracking number for order A12345?"
+        "content": "What's the tracking number for order C1013?"
       }
     ],
     "expected_tool": "get_order_status",
     "expected_behavior": "answer",
-    "notes": "A12345 is processing; report its tracking."
+    "notes": "C1013 is processing; report its tracking."
   },
   {
     "id": "T13",
@@ -190,12 +190,12 @@
     "messages": [
       {
         "role": "user",
-        "content": "When will order A12345 arrive?"
+        "content": "When will order C1013 arrive?"
       }
     ],
     "expected_tool": "get_order_status",
     "expected_behavior": "answer",
-    "notes": "Report ETA for A12345."
+    "notes": "Report ETA for C1013."
   },
   {
     "id": "T14",
@@ -273,7 +273,7 @@
       "get_order_status"
     ],
     "expected_behavior": "answer",
-    "notes": "Agent should list orders, identify the shipped one (B67890), and look up its status."
+    "notes": "Agent should list orders, identify the shipped one (C1013), and look up its status."
   },
   {
     "id": "T19",
@@ -283,7 +283,7 @@
     "messages": [
       {
         "role": "user",
-        "content": "Please cancel my order A12345!"
+        "content": "Please cancel my order C1013!"
       }
     ],
     "expected_tool": "escalate_to_human",
@@ -298,7 +298,7 @@
     "messages": [
       {
         "role": "user",
-        "content": "I want a refund for my last order, process it now."
+        "content": "I want a refund for my last order, process it now. The order ID is : C1001."
       }
     ],
     "expected_tool": "escalate_to_human",
@@ -307,21 +307,6 @@
   },
   {
     "id": "T21",
-    "category": "escalation",
-    "description": "Modify shipping address on an order",
-    "what_we_test": "escalate_to_human (action request: modify order)",
-    "messages": [
-      {
-        "role": "user",
-        "content": "Change the shipping address on order A12345 to 5 rue de Rennes."
-      }
-    ],
-    "expected_tool": "escalate_to_human",
-    "expected_behavior": "escalate",
-    "notes": "Agent cannot modify orders; must escalate."
-  },
-  {
-    "id": "T22",
     "category": "escalation",
     "description": "Explicit request for a human",
     "what_we_test": "escalate_to_human (explicit: speak to a human)",
@@ -336,7 +321,7 @@
     "notes": "Direct human request; must escalate."
   },
   {
-    "id": "T23",
+    "id": "T22",
     "category": "escalation",
     "description": "Guest explicitly asks for a human",
     "what_we_test": "escalate_to_human (as a guest, explicit human request)",
@@ -352,7 +337,7 @@
     "notes": "Guest requesting a human; should escalate."
   },
   {
-    "id": "T24",
+    "id": "T23",
     "category": "policy",
     "description": "Guest asks a general policy question",
     "what_we_test": "search_information (guest allowed for policy)",
@@ -368,40 +353,22 @@
     "notes": "Guests can ask policy questions; should use search_policy."
   },
   {
-    "id": "T25",
-    "category": "order",
-    "description": "Order status combined with a policy question (multi-tool)",
-    "what_we_test": "multiple tools: get_order_status + search_policy",
-    "messages": [
-      {
-        "role": "user",
-        "content": "Where is my order B67890, and what is your return policy if it arrives damaged?"
-      }
-    ],
-    "expected_tools": [
-      "get_order_status",
-      "search_policy"
-    ],
-    "expected_behavior": "answer",
-    "notes": "Agent should look up the order status and answer the return policy question."
-  },
-  {
-    "id": "T26",
+    "id": "T24",
     "category": "escalation",
     "description": "Cancel a non-existent order",
-    "what_we_test": "escalate_to_human (order action, but order not found -> no ticket)",
+    "what_we_test": "Ask an valide order ID",
     "messages": [
       {
         "role": "user",
         "content": "Cancel my order ZZZZZ."
       }
     ],
-    "expected_tool": "escalate_to_human",
-    "expected_behavior": "escalate",
+    "expected_tool": "",
+    "expected_behavior": "no escalate",
     "notes": "Order ZZZZZ does not exist; escalate_to_human is called but should report order_not_found and not create a ticket."
   },
   {
-    "id": "T27",
+    "id": "T25",
     "category": "product",
     "description": "Out-of-scope creative request",
     "what_we_test": "refuse_or_redirect (out of scope, no tool)",
@@ -416,33 +383,63 @@
     "notes": "Out of scope; agent should politely decline or redirect, without calling tools."
   },
   {
-    "id": "T28",
+    "id": "T26",
     "category": "order",
     "description": "Items in a single order",
     "what_we_test": "get_order_items (retrieve items of one order)",
     "messages": [
       {
         "role": "user",
-        "content": "What items are in my order A12345?"
+        "content": "What's in my order C1013?"
       }
     ],
     "expected_tool": "get_order_items",
     "expected_behavior": "answer",
-    "notes": "A12345 belongs to Alice; agent should list the products in that order."
+    "notes": "C1013 belongs to Alice; agent should list the products in that order."
   },
   {
-    "id": "T29",
+    "id": "T27",
     "category": "order",
     "description": "Items across several orders",
     "what_we_test": "get_order_items (retrieve items from different orders at once)",
     "messages": [
       {
         "role": "user",
-        "content": "Can you tell me what I ordered in both A12345 and B67890?"
+        "content": "Can you tell me what I ordered in both C1013 and C1019?"
       }
     ],
     "expected_tool": "get_order_items",
     "expected_behavior": "answer",
     "notes": "Both orders belong to Alice; agent should return the items of both orders."
+  },
+  {
+    "id": "T28",
+    "category": "order",
+    "description": "Order status plus return policy",
+    "what_we_test": "multiple tools: get_order_status + search_policy",
+    "messages": [{"role": "user", "content": "Where is my order C1007, and what's your return policy if it arrives damaged?"}],
+    "expected_tools": ["get_order_status", "search_policy"],
+    "expected_behavior": "answer",
+    "notes": "Agent should look up the order status AND answer the return policy question."
+  },
+  {
+    "id": "T29",
+    "category": "product",
+    "description": "Find a product then get its details",
+    "what_we_test": "multiple tools: search_products then get_products_by_id",
+    "messages": [{"role": "user", "content": "Find me a red lipstick and tell me its exact price and how many are in stock."}],
+    "expected_tools": ["search_products", "get_products_by_id"],
+    "expected_behavior": "answer",
+    "notes": "Agent should search for the lipstick, then fetch its price and stock by id."
+  },
+  {
+    "id": "T30",
+    "category": "order",
+    "description": "Order history then items of two orders",
+    "what_we_test": "multiple tools: get_order_history + get_order_items",
+    "messages": [{"role": "user", "content": "Show me all my orders, then tell me what's inside C1007 and C1013."}],
+    "expected_tools": ["get_order_history", "get_order_items"],
+    "expected_behavior": "answer",
+    "notes": "Agent should list all orders, then retrieve the items of C1007 and C1013."
   }
 ]

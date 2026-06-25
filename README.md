@@ -121,7 +121,7 @@ First, obtain a JWT token by signing up:
 ```bash
 TOKEN=$(curl -s -X POST http://localhost:8000/api/v1/auth/signup \
   -H "Content-Type: application/json" \
-  -d '{"email":"eval@test.com","password":"testpass","name":"Eval User"}' \
+  -d '{"email":"test@gmail.com","password":"TESTtest","name":"Eval User"}' \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
 
 python tests/eval.py --token "$TOKEN"
