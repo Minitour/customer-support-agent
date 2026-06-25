@@ -11,6 +11,7 @@ from app.db.database import get_db, AsyncSessionLocal
 from app.api.dependencies import get_current_user_optional
 from app.models.user import User
 from app.repositories.order_repository import OrderRepository
+from app.repositories.user_repository import UserRepository
 from app.repositories.product_repository import ProductRepository
 from app.repositories.conversation_repository import ConversationRepository
 from app.schemas.chat import ChatRequest, ChatContext, ConversationMessagesResponse, MessageOut
@@ -79,6 +80,7 @@ async def chat_stream(
 ):
     user_id = current_user.id if current_user else None
     conv_repo = ConversationRepository(db)
+    user_repo = UserRepository(db) if current_user else None
     product_repo = ProductRepository(db)
 
     # Resolve or create conversation
@@ -120,6 +122,7 @@ async def chat_stream(
                     product_repo=bg_product_repo,
                     messages=history,
                     context_text=context_text,
+                    user_repo=user_repo
                 ):
                     if chunk.startswith("data: "):
                         try:
