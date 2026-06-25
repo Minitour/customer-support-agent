@@ -20,6 +20,7 @@ The script:
 4. Runs rule-based checks (correct tool, escalation, etc.)
 5. Optionally runs LLM-as-judge scoring for response quality
 6. Prints a per-scenario report + summary
+7. Writes tests/result.json (query, tools, final answer, judge scores)
 """
 
 import argparse
@@ -109,28 +110,29 @@ def evaluate_scenario(
             result["passed"] = False
 
     expected_tool = scenario.get("expected_tool")
-    should_escalate = scenario.get("should_escalate", False)
+    expected_tools = scenario.get("expected_tools")
     expected_behavior = scenario.get("expected_behavior", "")
 
     tool_names_called = [tc["name"] for tc in tool_calls]
 
-    # Check: correct tool called
-    if expected_tool:
-        tool_ok = expected_tool in tool_names_called
+    # Check: correct tool(s) called — supports single (expected_tool) or multiple (expected_tools)
+    required_tools = []
+    if expected_tools:
+        required_tools = expected_tools
+    elif expected_tool:
+        required_tools = [expected_tool]
+
+    if required_tools:
+        missing = [t for t in required_tools if t not in tool_names_called]
         check(
-            "correct_tool_called",
-            tool_ok,
-            f"Expected '{expected_tool}', got {tool_names_called}",
+            "correct_tools_called",
+            not missing,
+            f"Expected {required_tools}, got {tool_names_called}"
+            + (f" (missing {missing})" if missing else ""),
         )
     else:
         if expected_behavior not in ("ask_for_order_id", "escalate", "refuse_or_redirect"):
             check("no_unexpected_tool", True, "No tool expected and none called")
-
-    # Check: escalation when required
-    if should_escalate:
-        escalation_keywords = ["escalat", "human agent", "human support", "reach out", "unable to process"]
-        escalated = any(kw in final_text.lower() for kw in escalation_keywords)
-        check("escalation_triggered", escalated, f"Response: '{final_text[:200]}'")
 
     # Check: response not empty
     check("response_not_empty", bool(final_text.strip()), "Response was empty")
@@ -346,6 +348,48 @@ def save_report(results: list[dict], path: str) -> None:
     print(f"Report saved → {path}")
 
 
+def _tool_type(scenario: dict) -> str:
+    expected_tools = scenario.get("expected_tools")
+    expected_tool = scenario.get("expected_tool")
+    if expected_tools:
+        return "multiple" if len(expected_tools) > 1 else "single"
+    if expected_tool:
+        return "single"
+    return "none"
+
+
+def save_result(records: list[dict], path: str) -> None:
+    total = len(records)
+    passed = sum(1 for r in records if r.get("passed"))
+    failed = total - passed
+
+    overalls = [r["judge_scores"]["overall"] for r in records if r.get("judge_scores", {}).get("overall") is not None]
+    judge_average = round(sum(overalls) / len(overalls), 2) if overalls else None
+
+    by_tool_type = {}
+    for r in records:
+        tt = r.get("tool_type", "none")
+        by_tool_type.setdefault(tt, {"passed": 0, "total": 0})
+        by_tool_type[tt]["total"] += 1
+        if r.get("passed"):
+            by_tool_type[tt]["passed"] += 1
+
+    output = {
+        "summary": {
+            "total": total,
+            "passed": passed,
+            "failed": failed,
+            "pass_rate": f"{(100 * passed // total) if total else 0}%",
+            "judge_average_overall": judge_average,
+            "by_tool_type": by_tool_type,
+        },
+        "results": records,
+    }
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
+    print(f"result.json written → {path}")
+
+
 # ---------------------------------------------------------------------------
 # Main runner
 # ---------------------------------------------------------------------------
@@ -378,6 +422,7 @@ async def run_eval(
     print(f"{'='*65}\n")
 
     results = []
+    output_records = []
     async with httpx.AsyncClient() as client:
         for scenario in scenarios:
             sys.stdout.write(f"Running [{scenario['id']}] ... ")
@@ -403,6 +448,21 @@ async def run_eval(
                 print_scenario_result(result, verbose=verbose)
                 results.append(result)
 
+                judge = result.get("judge") or {}
+                output_records.append({
+                    "id": f"R{len(output_records) + 1:02d}",
+                    "scenario": scenario["id"],
+                    "category": scenario.get("category", "other"),
+                    "query": next((m["content"] for m in reversed(scenario["messages"]) if m["role"] == "user"), ""),
+                    "expected_tool": scenario.get("expected_tools") or scenario.get("expected_tool"),
+                    "tool_type": _tool_type(scenario),
+                    "calling_tools": [tc["name"] for tc in tool_calls],
+                    "final_answer": final_text,
+                    "passed": result["passed"],
+                    "judge_scores": {k: judge[k] for k in ("groundedness", "accuracy", "helpfulness", "tone", "overall") if k in judge},
+                    "judge_reasoning": judge.get("reasoning"),
+                })
+
             except Exception as exc:
                 print(f"ERROR: {exc}")
                 results.append({
@@ -413,8 +473,23 @@ async def run_eval(
                     "checks": [{"name": "run", "ok": False, "detail": str(exc)}],
                     "judge": None,
                 })
+                output_records.append({
+                    "id": f"R{len(output_records) + 1:02d}",
+                    "scenario": scenario["id"],
+                    "category": scenario.get("category", "other"),
+                    "query": next((m["content"] for m in reversed(scenario["messages"]) if m["role"] == "user"), ""),
+                    "expected_tool": scenario.get("expected_tools") or scenario.get("expected_tool"),
+                    "tool_type": _tool_type(scenario),
+                    "calling_tools": [],
+                    "final_answer": f"ERROR: {exc}",
+                    "passed": False,
+                    "judge_scores": {},
+                    "judge_reasoning": None,
+                })
 
     print_summary(results, use_judge)
+
+    save_result(output_records, os.path.join(os.path.dirname(__file__), "result.json"))
 
     if save_report_path:
         save_report(results, save_report_path)

@@ -1,0 +1,39 @@
+{
+    "users": [
+        {
+            "email": "test@gmail.com",
+            "password": "TESTtest",
+            "name": "TEST test"
+          },
+      {
+        "email": "alice@test.com",
+        "password": "password123",
+        "name": "Alice Martin"
+      },
+      {
+        "email": "bob@test.com",
+        "password": "password123",
+        "name": "Bob Durand"
+      },
+      {
+        "email": "carla@test.com",
+        "password": "password123",
+        "name": "Carla Nguyen"
+      },
+      {
+        "email": "david@test.com",
+        "password": "password123",
+        "name": "David Lefevre"
+      },
+      {
+        "email": "emma@test.com",
+        "password": "password123",
+        "name": "Emma Rossi"
+      },
+      {
+        "email": "farid@test.com",
+        "password": "password123",
+        "name": "Farid Benali"
+      }
+    ]
+  }
