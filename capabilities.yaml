@@ -26,6 +26,14 @@ skills:
     type: github
     def:
       repo: mblode/agent-skills@ui-animation
+  - id: slidev
+    type: github
+    def:
+      repo: slidevjs/slidev@slidev
+  - id: human-writing
+    type: github
+    def:
+      repo: factory-ai/factory-plugins@human-writing
 servers: []
 tools: []
 rules:

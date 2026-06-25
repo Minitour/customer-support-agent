@@ -1,0 +1,139 @@
+/* ── Global resets & base ──────────────────────────────── */
+:root {
+  --slidev-theme-primary: #4f46e5;
+  --slidev-font-size: 16px;
+}
+
+/* Smoother fonts */
+.slidev-layout {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#slidev-goto-dialog .autocomplete-list {
+  display: none !important;
+}
+#slidev-goto-dialog {
+  display: none !important;
+}
+
+/* ── Section divider slides ────────────────────────────── */
+.section-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-divider h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #1e1b4b;
+  letter-spacing: -0.02em;
+}
+
+.section-number {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #818cf8;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+}
+
+/* Colour variants */
+.section-divider--violet h1 { color: #2e1065; }
+.section-divider--violet .section-number {
+  color: #a855f7;
+  background: #faf5ff;
+  border-color: #e9d5ff;
+}
+
+.section-divider--emerald h1 { color: #022c22; }
+.section-divider--emerald .section-number {
+  color: #10b981;
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.section-divider--red h1 { color: #450a0a; }
+.section-divider--red .section-number {
+  color: #ef4444;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* ── Table styling ─────────────────────────────────────── */
+.slidev-layout table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.slidev-layout table thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 2px solid #e2e8f0;
+  text-align: left;
+}
+
+.slidev-layout table tbody td {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: top;
+}
+
+.slidev-layout table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.slidev-layout table tbody tr:hover td {
+  background: #f8fafc;
+}
+
+/* ── Code blocks ───────────────────────────────────────── */
+.slidev-layout code:not(pre code) {
+  background: #f1f5f9;
+  color: #4f46e5;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-family: 'Fira Code', monospace;
+}
+
+/* ── Headings ──────────────────────────────────────────── */
+.slidev-layout h1 {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #0f172a;
+}
+
+.slidev-layout h1 + p,
+.slidev-layout h1 + div {
+  margin-top: 0.25rem;
+}
+
+/* ── Slide transition helpers ──────────────────────────── */
+.slidev-layout.center {
+  justify-content: center;
+  align-items: center;
+}
+
+/* ── Scrollbar (for code blocks with overflow) ─────────── */
+pre::-webkit-scrollbar {
+  height: 4px;
+}
+pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 2px;
+}
