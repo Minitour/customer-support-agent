@@ -37,14 +37,13 @@ Looks up a specific order by its order code (e.g. `A12345`). Returns status, car
 
 ## Escalation Policy
 
-The agent escalates with:  
-> *"I'm unable to process that request. I'm escalating you to a human support agent who will reach out to you shortly."*
+The agent can only provide information — it never performs actions. Any action request is handed off to a human via the `escalate_to_human` tool.
 
-**Triggers escalation when:**
-- Asked to perform an action (issue refund, cancel subscription, modify an order, change address)
-- Cannot find an answer in the policy KB
-- User explicitly requests a human agent
-- Security/fraud concerns
+**Signed-in customers:** name and email are pulled from the database automatically. For order actions, the agent includes the order ID, and the tool checks it exists and belongs to the customer before escalating.
+- *"Please cancel order A12345"* → verifies the order, then escalates.
+
+**Guests:** the agent asks for name and email first, then escalates.
+- *"I'd like to change my password"* → asks for name + email, then escalates.
 
 **Never invents** information — only answers with what tool results contain.
 

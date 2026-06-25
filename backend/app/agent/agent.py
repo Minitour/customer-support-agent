@@ -75,6 +75,7 @@ def _convert_messages(messages: list[dict], context_text: Optional[str] = None) 
 async def stream_agent_response(
     user_id: Optional[int],
     order_repo,
+    user_repo,
     messages: list[dict],
     product_repo=None,
     context_text: Optional[str] = None,
@@ -92,7 +93,7 @@ async def stream_agent_response(
     import json
 
     is_guest = user_id is None
-    tools = build_tools(user_id, order_repo, product_repo)
+    tools = build_tools(user_id, order_repo, product_repo, user_repo)
     base_prompt = GUEST_SYSTEM_PROMPT if is_guest else SYSTEM_PROMPT
     # Keep the system prompt stable (cacheable prefix); context is appended as a
     # trailing message in _convert_messages, never concatenated into the prompt.

@@ -1,12 +1,13 @@
 """Build user-scoped LangChain tools for a single request."""
 from typing import Optional
+import json
 
 from langchain_core.tools import tool
 
 from app.vectorstore.ingestion import get_policy_vectorstore, get_products_vectorstore
 
 
-def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=None):
+def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=None, user_repo=None):
     """
     Returns a list of LangChain tools.
 
@@ -78,8 +79,16 @@ def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=Non
                 f"| Brand: {p.brand or 'N/A'} | Price: {price} | Stock: {p.stock}"
             )
         return "\n".join(lines)
+    
+    @tool
+    async def escalate_to_human(name: str, email: str, reason: str) -> str:
+        """Escalate to a human agent for any request you can't handle (e.g. changing
+            a password, account changes) or when the customer asks for a human.
+            Ask the customer for their name and email first, then call this."""
+        return f"Ticket created for {name}. A human agent will email you at {email} shortly."
 
-    base_tools = [search_policy, search_products, get_products_by_id]
+
+    base_tools = [search_policy, search_products, get_products_by_id, escalate_to_human]
 
     if user_id is None or order_repo is None:
         return base_tools
@@ -150,3 +159,36 @@ def build_tools(user_id: Optional[int] = None, order_repo=None, product_repo=Non
         return "\n".join(lines)
 
     return base_tools + [get_order_status, get_order_history, get_order_items]
+    
+    if escalate_to_human in base_tools:
+        base_tools.remove(escalate_to_human)
+    
+    @tool
+    async def escalate_to_human(reason: str, order_id: Optional[str] = None) -> str:
+        """Escalate a request to a human support agent. Use for actions you can't perform
+        (cancel/modify/return an order) or when the customer asks for a human.
+        For order-related actions, include the order_id; ask for it first if missing.
+
+        Returns the escalation result as data. If status is "order_not_found", tell the
+        customer no order with that ID exists on their account. If status is "escalated",
+        confirm the escalation and show them the submitted_message so they see what was sent."""
+        
+        if order_id is not None:
+            order = await order_repo.get_by_code(order_id.strip().upper(), user_id=user_id)
+            if order is None:
+                return json.dumps({"status": "order_not_found", "order_id": order_id})
+
+        user = await user_repo.get_by_id(user_id)
+
+        submitted_message = (
+            f"Customer: {user.name} ({user.email}) | "
+            f"Order: {order_id or 'N/A'} | Reason: {reason}"
+        )
+
+        return json.dumps({
+            "status": "escalated",
+            "customer_email": user.email,
+            "submitted_message": submitted_message,
+        })
+    
+    return base_tools + [get_order_status, get_order_history, escalate_to_human]
