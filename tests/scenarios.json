@@ -1,364 +1,448 @@
 [
   {
-    "id": "P01",
+    "id": "T01",
     "category": "policy",
-    "description": "Return policy for sale items",
+    "description": "Return policy question",
+    "what_we_test": "search_information (get policy from KB)",
     "messages": [
-      {"role": "user", "content": "What is your return policy for items bought on sale?"}
+      {
+        "role": "user",
+        "content": "What is your return policy?"
+      }
     ],
     "expected_tool": "search_policy",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Must mention sale items get store credit, not cash refund"
+    "notes": "Should answer from the policy knowledge base."
   },
   {
-    "id": "P02",
+    "id": "T02",
     "category": "policy",
-    "description": "Standard return window",
+    "description": "Shipping cost / free shipping threshold",
+    "what_we_test": "search_information (shipping policy)",
     "messages": [
-      {"role": "user", "content": "How many days do I have to return an item?"}
+      {
+        "role": "user",
+        "content": "How much do I need to spend for free shipping?"
+      }
     ],
     "expected_tool": "search_policy",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should answer 30 days"
+    "notes": "Should answer the free shipping threshold from policy."
   },
   {
-    "id": "P03",
+    "id": "T03",
     "category": "policy",
-    "description": "International shipping availability",
+    "description": "Warranty information",
+    "what_we_test": "search_information (warranty policy)",
     "messages": [
-      {"role": "user", "content": "Do you ship to Europe?"}
+      {
+        "role": "user",
+        "content": "What warranty do your electronics come with?"
+      }
     ],
     "expected_tool": "search_policy",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should confirm EU shipping with 7-14 day estimate"
+    "notes": "Should answer warranty terms from policy."
   },
   {
-    "id": "P04",
-    "category": "policy",
-    "description": "Free shipping threshold",
-    "messages": [
-      {"role": "user", "content": "How much do I need to spend to get free shipping?"}
-    ],
-    "expected_tool": "search_policy",
-    "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should say $50 for free domestic shipping"
-  },
-  {
-    "id": "P05",
+    "id": "T04",
     "category": "policy",
     "description": "Payment methods accepted",
+    "what_we_test": "search_information (payment policy)",
     "messages": [
-      {"role": "user", "content": "What payment methods do you accept?"}
+      {
+        "role": "user",
+        "content": "What payment methods do you accept?"
+      }
     ],
     "expected_tool": "search_policy",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should list Visa, Mastercard, PayPal, Apple Pay, etc."
+    "notes": "Should list accepted payment methods from policy."
   },
   {
-    "id": "P06",
+    "id": "T05",
     "category": "policy",
-    "description": "Warranty for electronics",
+    "description": "Question with no policy answer available",
+    "what_we_test": "search_information (no information found, must not hallucinate)",
     "messages": [
-      {"role": "user", "content": "What warranty do laptops come with?"}
+      {
+        "role": "user",
+        "content": "Do you offer a loyalty points program with airline miles?"
+      }
     ],
     "expected_tool": "search_policy",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should say 1 year manufacturer warranty for laptops"
+    "notes": "Policy KB has no such program; agent must say it doesn't have that information rather than invent one."
   },
   {
-    "id": "P07",
-    "category": "policy",
-    "description": "Defective item reporting",
+    "id": "T06",
+    "category": "product",
+    "description": "Product discovery by keyword",
+    "what_we_test": "search_products (find by natural language)",
     "messages": [
-      {"role": "user", "content": "I received a damaged item. What should I do?"}
+      {
+        "role": "user",
+        "content": "Do you sell any mascara?"
+      }
     ],
-    "expected_tool": "search_policy",
+    "expected_tool": "search_products",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should say contact within 7 days, free return arranged"
+    "notes": "Should find mascara via search_products."
   },
   {
-    "id": "P08",
-    "category": "policy",
-    "description": "Buy Now Pay Later options",
+    "id": "T07",
+    "category": "product",
+    "description": "Product discovery by category",
+    "what_we_test": "search_products (category browse)",
     "messages": [
-      {"role": "user", "content": "Do you have buy now pay later options?"}
+      {
+        "role": "user",
+        "content": "What fragrances do you have?"
+      }
     ],
-    "expected_tool": "search_policy",
+    "expected_tool": "search_products",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should mention Klarna and Afterpay"
+    "notes": "Should return fragrance products."
   },
   {
-    "id": "P09",
-    "category": "policy",
-    "description": "Refund timeline for credit cards",
+    "id": "T08",
+    "category": "product",
+    "description": "Availability of a product you don't sell",
+    "what_we_test": "search_products (no match, honest answer)",
     "messages": [
-      {"role": "user", "content": "How long does it take to get a refund to my credit card?"}
+      {
+        "role": "user",
+        "content": "Do you sell live snakes?"
+      }
     ],
-    "expected_tool": "search_policy",
+    "expected_tool": "search_products",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should say 5-10 business days for credit cards"
+    "notes": "No such product; agent should say it isn't available, not invent one."
   },
   {
-    "id": "P10",
-    "category": "policy",
-    "description": "Items that cannot be returned",
+    "id": "T09",
+    "category": "product",
+    "description": "Specific product price and stock by id",
+    "what_we_test": "get_products_by_id (lookup specific product)",
     "messages": [
-      {"role": "user", "content": "Can I return opened cosmetics?"}
+      {
+        "role": "user",
+        "content": "What's the price and stock of product number 1?"
+      }
     ],
-    "expected_tool": "search_policy",
+    "expected_tool": "get_products_by_id",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Opened cosmetics/personal care are non-returnable"
+    "notes": "Product 1 is the Essence Mascara; report price and stock."
   },
   {
-    "id": "P11",
-    "category": "policy",
-    "description": "Privacy and data rights",
+    "id": "T10",
+    "category": "product",
+    "description": "Discover then look up details (multi-tool)",
+    "what_we_test": "multiple tools: search_products then get_products_by_id",
     "messages": [
-      {"role": "user", "content": "Can I request deletion of my personal data?"}
+      {
+        "role": "user",
+        "content": "Find me a red lipstick and then tell me its exact price and how many are in stock."
+      }
     ],
-    "expected_tool": "search_policy",
+    "expected_tools": [
+      "search_products",
+      "get_products_by_id"
+    ],
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should confirm data deletion rights and mention privacy@shopease.com"
+    "notes": "Agent should search for the lipstick, then fetch its details by id."
   },
   {
-    "id": "P12",
-    "category": "policy",
-    "description": "Contact the support team",
-    "messages": [
-      {"role": "user", "content": "How can I speak to a human support agent?"}
-    ],
-    "expected_tool": "search_policy",
-    "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Should provide phone/email and business hours"
-  },
-  {
-    "id": "O01",
+    "id": "T11",
     "category": "order",
-    "description": "Order status lookup with valid order code",
+    "description": "Order status for a valid order",
+    "what_we_test": "get_order_status (valid order owned by user)",
     "messages": [
-      {"role": "user", "content": "Where is my order A12345?"}
+      {
+        "role": "user",
+        "content": "What is the status of my order B67890?"
+      }
     ],
     "expected_tool": "get_order_status",
     "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Agent should call get_order_status with A12345"
+    "notes": "B67890 is shipped via FedEx for Alice."
   },
   {
-    "id": "O02",
+    "id": "T12",
     "category": "order",
-    "description": "Order status prompt without order ID — agent asks for it",
+    "description": "Tracking number for a valid order",
+    "what_we_test": "get_order_status (tracking field)",
     "messages": [
-      {"role": "user", "content": "Where is my order?"}
+      {
+        "role": "user",
+        "content": "What's the tracking number for order A12345?"
+      }
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "notes": "A12345 is processing; report its tracking."
+  },
+  {
+    "id": "T13",
+    "category": "order",
+    "description": "ETA for a valid order",
+    "what_we_test": "get_order_status (ETA field)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "When will order A12345 arrive?"
+      }
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "notes": "Report ETA for A12345."
+  },
+  {
+    "id": "T14",
+    "category": "order",
+    "description": "Full order history",
+    "what_we_test": "get_order_history (list all user orders)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Can you show me all my orders?"
+      }
+    ],
+    "expected_tool": "get_order_history",
+    "expected_behavior": "answer",
+    "notes": "List all of Alice's orders."
+  },
+  {
+    "id": "T15",
+    "category": "order",
+    "description": "Status of a non-existent order",
+    "what_we_test": "get_order_status (order not found, honest answer)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is the status of order Z99999?"
+      }
+    ],
+    "expected_tool": "get_order_status",
+    "expected_behavior": "answer",
+    "notes": "Z99999 does not exist; agent should say no such order was found."
+  },
+  {
+    "id": "T16",
+    "category": "order",
+    "description": "Order status without an order ID",
+    "what_we_test": "missing information (must ask for order ID before any tool)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Where is my order?"
+      }
     ],
     "expected_tool": null,
     "expected_behavior": "ask_for_order_id",
-    "should_escalate": false,
-    "notes": "Agent must ask for order ID before calling any tool"
+    "notes": "No order ID given; agent must ask for the order code, not guess."
   },
   {
-    "id": "O03",
+    "id": "T17",
     "category": "order",
-    "description": "Multi-turn: user provides order ID after being asked",
+    "description": "Cancel request without an order ID",
+    "what_we_test": "missing information (ask for order ID before escalating an order action)",
     "messages": [
-      {"role": "user", "content": "Can you check my delivery status?"},
-      {"role": "assistant", "content": "I'd be happy to help! Could you please share your order code?"},
-      {"role": "user", "content": "It's B98765"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "After receiving order ID, agent calls get_order_status"
-  },
-  {
-    "id": "O04",
-    "category": "order",
-    "description": "Order status for non-existent order",
-    "messages": [
-      {"role": "user", "content": "What's the status of order Z99999?"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "not_found",
-    "should_escalate": false,
-    "notes": "Tool returns not found, agent should say honestly it can't find it"
-  },
-  {
-    "id": "O05",
-    "category": "order",
-    "description": "Order tracking number question",
-    "messages": [
-      {"role": "user", "content": "What is the tracking number for order C11111?"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Agent should return tracking from order status result"
-  },
-  {
-    "id": "O06",
-    "category": "order",
-    "description": "Order ETA question",
-    "messages": [
-      {"role": "user", "content": "When will my order D22222 arrive?"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Agent should format and return the ETA date"
-  },
-  {
-    "id": "O07",
-    "category": "order",
-    "description": "Carrier question for specific order",
-    "messages": [
-      {"role": "user", "content": "Which carrier is handling my order E33333?"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Agent should return carrier name from order status"
-  },
-  {
-    "id": "O08",
-    "category": "order",
-    "description": "Order with lowercase code",
-    "messages": [
-      {"role": "user", "content": "check order f44444"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "answer_or_not_found",
-    "should_escalate": false,
-    "notes": "Agent should handle case-insensitive order codes"
-  },
-  {
-    "id": "O09",
-    "category": "order",
-    "description": "Multiple order questions in one message",
-    "messages": [
-      {"role": "user", "content": "I have two orders, G55555 and H66666, can you check both?"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Agent may call get_order_status twice or handle gracefully"
-  },
-  {
-    "id": "O10",
-    "category": "order",
-    "description": "Order status question combining policy",
-    "messages": [
-      {"role": "user", "content": "My order I77777 hasn't arrived yet. Can I get a refund?"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "answer_with_policy",
-    "should_escalate": false,
-    "notes": "Agent should check order status and note refund policy"
-  },
-  {
-    "id": "O11",
-    "category": "order",
-    "description": "Order status with explicit name and ID",
-    "messages": [
-      {"role": "user", "content": "I'm John Smith, order number J88888"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "answer",
-    "should_escalate": false,
-    "notes": "Agent should call get_order_status with J88888"
-  },
-  {
-    "id": "O12",
-    "category": "order",
-    "description": "Ask about another user's order (cross-user deny)",
-    "messages": [
-      {"role": "user", "content": "Can you look up order K99999 for my friend?"}
-    ],
-    "expected_tool": "get_order_status",
-    "expected_behavior": "not_found",
-    "should_escalate": false,
-    "notes": "Tool should return not-found since it's scoped to current user"
-  },
-  {
-    "id": "E01",
-    "category": "escalation",
-    "description": "Request to cancel subscription",
-    "messages": [
-      {"role": "user", "content": "Can you cancel my subscription and refund last month?"}
+      {
+        "role": "user",
+        "content": "I want to cancel an order."
+      }
     ],
     "expected_tool": null,
-    "expected_behavior": "escalate",
-    "should_escalate": true,
-    "notes": "No cancel_subscription tool; agent must escalate"
+    "expected_behavior": "ask_for_order_id",
+    "notes": "No order ID; agent should ask which order before escalating."
   },
   {
-    "id": "E02",
-    "category": "escalation",
-    "description": "Request to issue a refund",
+    "id": "T18",
+    "category": "order",
+    "description": "History then status of one order (multi-tool)",
+    "what_we_test": "multiple tools: get_order_history then get_order_status",
     "messages": [
-      {"role": "user", "content": "I want a refund for my last order, can you process it now?"}
+      {
+        "role": "user",
+        "content": "List my orders, then give me the full status of the shipped one."
+      }
     ],
-    "expected_tool": null,
-    "expected_behavior": "escalate",
-    "should_escalate": true,
-    "notes": "Agent can't process refunds, must escalate"
-  },
-  {
-    "id": "E03",
-    "category": "escalation",
-    "description": "Request to modify an order",
-    "messages": [
-      {"role": "user", "content": "Please change the shipping address on my order L11111"}
+    "expected_tools": [
+      "get_order_history",
+      "get_order_status"
     ],
-    "expected_tool": null,
-    "expected_behavior": "escalate",
-    "should_escalate": true,
-    "notes": "Agent cannot modify orders, must escalate"
+    "expected_behavior": "answer",
+    "notes": "Agent should list orders, identify the shipped one (B67890), and look up its status."
   },
   {
-    "id": "E04",
+    "id": "T19",
     "category": "escalation",
-    "description": "Request completely out of scope",
+    "description": "Cancel a valid order",
+    "what_we_test": "escalate_to_human (action request: cancellation)",
     "messages": [
-      {"role": "user", "content": "Can you write me a poem about my shopping experience?"}
+      {
+        "role": "user",
+        "content": "Please cancel my order A12345!"
+      }
+    ],
+    "expected_tool": "escalate_to_human",
+    "expected_behavior": "escalate",
+    "notes": "Agent cannot cancel; must escalate."
+  },
+  {
+    "id": "T20",
+    "category": "escalation",
+    "description": "Refund request",
+    "what_we_test": "escalate_to_human (action request: refund)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "I want a refund for my last order, process it now."
+      }
+    ],
+    "expected_tool": "escalate_to_human",
+    "expected_behavior": "escalate",
+    "notes": "Agent cannot issue refunds; must escalate."
+  },
+  {
+    "id": "T21",
+    "category": "escalation",
+    "description": "Modify shipping address on an order",
+    "what_we_test": "escalate_to_human (action request: modify order)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Change the shipping address on order A12345 to 5 rue de Rennes."
+      }
+    ],
+    "expected_tool": "escalate_to_human",
+    "expected_behavior": "escalate",
+    "notes": "Agent cannot modify orders; must escalate."
+  },
+  {
+    "id": "T22",
+    "category": "escalation",
+    "description": "Explicit request for a human",
+    "what_we_test": "escalate_to_human (explicit: speak to a human)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "I want to speak to a human agent right now."
+      }
+    ],
+    "expected_tool": "escalate_to_human",
+    "expected_behavior": "escalate",
+    "notes": "Direct human request; must escalate."
+  },
+  {
+    "id": "T23",
+    "category": "escalation",
+    "description": "Guest explicitly asks for a human",
+    "what_we_test": "escalate_to_human (as a guest, explicit human request)",
+    "user_email": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Can I talk to a real person please?"
+      }
+    ],
+    "expected_tool": "escalate_to_human",
+    "expected_behavior": "escalate",
+    "notes": "Guest requesting a human; should escalate."
+  },
+  {
+    "id": "T24",
+    "category": "policy",
+    "description": "Guest asks a general policy question",
+    "what_we_test": "search_information (guest allowed for policy)",
+    "user_email": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is your return policy?"
+      }
+    ],
+    "expected_tool": "search_policy",
+    "expected_behavior": "answer",
+    "notes": "Guests can ask policy questions; should use search_policy."
+  },
+  {
+    "id": "T25",
+    "category": "order",
+    "description": "Order status combined with a policy question (multi-tool)",
+    "what_we_test": "multiple tools: get_order_status + search_policy",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Where is my order B67890, and what is your return policy if it arrives damaged?"
+      }
+    ],
+    "expected_tools": [
+      "get_order_status",
+      "search_policy"
+    ],
+    "expected_behavior": "answer",
+    "notes": "Agent should look up the order status and answer the return policy question."
+  },
+  {
+    "id": "T26",
+    "category": "escalation",
+    "description": "Cancel a non-existent order",
+    "what_we_test": "escalate_to_human (order action, but order not found -> no ticket)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Cancel my order ZZZZZ."
+      }
+    ],
+    "expected_tool": "escalate_to_human",
+    "expected_behavior": "escalate",
+    "notes": "Order ZZZZZ does not exist; escalate_to_human is called but should report order_not_found and not create a ticket."
+  },
+  {
+    "id": "T27",
+    "category": "product",
+    "description": "Out-of-scope creative request",
+    "what_we_test": "refuse_or_redirect (out of scope, no tool)",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Can you write me a poem about my shopping experience?"
+      }
     ],
     "expected_tool": null,
     "expected_behavior": "refuse_or_redirect",
-    "should_escalate": false,
-    "notes": "Agent should politely decline off-topic requests"
+    "notes": "Out of scope; agent should politely decline or redirect, without calling tools."
   },
   {
-    "id": "E05",
-    "category": "escalation",
-    "description": "Explicit request for human agent",
+    "id": "T28",
+    "category": "order",
+    "description": "Items in a single order",
+    "what_we_test": "get_order_items (retrieve items of one order)",
     "messages": [
-      {"role": "user", "content": "I want to speak to a human agent right now"}
+      {
+        "role": "user",
+        "content": "What items are in my order A12345?"
+      }
     ],
-    "expected_tool": null,
-    "expected_behavior": "escalate",
-    "should_escalate": true,
-    "notes": "Agent should immediately provide human contact info or escalate"
+    "expected_tool": "get_order_items",
+    "expected_behavior": "answer",
+    "notes": "A12345 belongs to Alice; agent should list the products in that order."
   },
   {
-    "id": "E06",
-    "category": "escalation",
-    "description": "Fraud claim on account",
+    "id": "T29",
+    "category": "order",
+    "description": "Items across several orders",
+    "what_we_test": "get_order_items (retrieve items from different orders at once)",
     "messages": [
-      {"role": "user", "content": "Someone used my account to place orders, I think I've been hacked"}
+      {
+        "role": "user",
+        "content": "Can you tell me what I ordered in both A12345 and B67890?"
+      }
     ],
-    "expected_tool": null,
-    "expected_behavior": "escalate",
-    "should_escalate": true,
-    "notes": "Fraud/security issues must be escalated to human immediately"
+    "expected_tool": "get_order_items",
+    "expected_behavior": "answer",
+    "notes": "Both orders belong to Alice; agent should return the items of both orders."
   }
 ]
