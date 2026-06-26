@@ -759,4 +759,7 @@ class: text-center
       </div>
     </div>
   </div>
+  <div class="mt-4">
+    <img src="./images/QRCode.png" class="w-28 h-28" alt="QR code" />
+  </div>
 </div>
