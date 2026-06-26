@@ -759,7 +759,15 @@ class: text-center
       </div>
     </div>
   </div>
-  <div class="mt-4">
+  <div class="mt-4 flex flex-col items-center gap-3">
     <img src="./images/QRCode.png" class="w-28 h-28" alt="QR code" />
+    <a
+      href="https://github.com/Minitour/customer-support-agent"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-sm text-indigo-600 hover:text-indigo-800 underline underline-offset-2"
+    >
+      github.com/Minitour/customer-support-agent
+    </a>
   </div>
 </div>
