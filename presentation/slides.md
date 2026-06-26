@@ -706,15 +706,6 @@ class: text-center
   </div>
 </div>
 
-<div v-click class="grid grid-cols-1 gap-5">
-  <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 hover:border-amber-200 hover:bg-amber-50 transition-colors">
-    <div class="font-semibold text-gray-800 mb-2">Session memory</div>
-    <div class="text-sm text-gray-600">
-      The current implementation sends the full conversation history on each request but doesn't persist across page reloads. A session store would let customers continue interrupted conversations without repeating themselves.
-    </div>
-  </div>
-</div>
-
 </div>
 
 ---
